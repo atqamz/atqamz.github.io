@@ -27,3 +27,4 @@ ts-debug.log*
 
 # vercel
 .vercel
+public/script/
