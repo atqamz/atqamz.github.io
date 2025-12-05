@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <div className="space-y-8">
@@ -10,15 +12,15 @@ export default function Home() {
       </section>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <a href="/blog" className="block p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow border border-gray-100">
+        <Link href="/blog" className="block p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow border border-gray-100">
           <h2 className="text-2xl font-bold mb-2">📝 Blog</h2>
           <p className="text-gray-600">Read my latest thoughts on technology, coding, and life.</p>
-        </a>
+        </Link>
 
-        <a href="/resume" className="block p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow border border-gray-100">
+        <Link href="/resume" className="block p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow border border-gray-100">
           <h2 className="text-2xl font-bold mb-2">💼 Resume</h2>
           <p className="text-gray-600">Check out my professional experience, skills, and projects.</p>
-        </a>
+        </Link>
       </div>
     </div>
   );
