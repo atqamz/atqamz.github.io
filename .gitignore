@@ -25,6 +25,5 @@ ts-debug.log*
 # local env files
 .env*.local
 
-# vercel
-.vercel
-public/script/
+# etc
+public/*.sh
