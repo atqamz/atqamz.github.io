@@ -28,3 +28,4 @@ ts-debug.log*
 # etc
 public/
 !public/CNAME
+!public/.nojekyll

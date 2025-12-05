@@ -133,7 +133,7 @@ export default function ShortenerPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: 'Update shortlinks via web UI',
+          message: 'chore: update shortlinks via web UI',
           content: contentEncoded,
           sha: fileSha,
           branch: BRANCH,
