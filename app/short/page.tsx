@@ -42,6 +42,7 @@ function GithubIcon({ className }: { className?: string }) {
 export default function ShortenerPage() {
   const [token, setToken] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(false);
   const [fileSha, setFileSha] = useState('');
@@ -57,8 +58,9 @@ export default function ShortenerPage() {
     const storedToken = localStorage.getItem('github_pat');
     if (storedToken) {
       setToken(storedToken);
-      setIsAuthenticated(true);
       fetchLinks(storedToken);
+    } else {
+      setIsCheckingAuth(false);
     }
   }, []);
 
@@ -66,7 +68,7 @@ export default function ShortenerPage() {
     e.preventDefault();
     if (token) {
       localStorage.setItem('github_pat', token);
-      setIsAuthenticated(true);
+      setIsCheckingAuth(true);
       fetchLinks(token);
     }
   };
@@ -103,10 +105,15 @@ export default function ShortenerPage() {
       const content = atob(data.content);
       const parsedLinks = JSON.parse(content);
       setLinks(parsedLinks);
+      setIsAuthenticated(true);
     } catch (err: any) {
       setError(err.message);
+      if (err.message !== 'Invalid token. Please login again.') {
+        setIsAuthenticated(true);
+      }
     } finally {
       setLoading(false);
+      setIsCheckingAuth(false);
     }
   };
 
@@ -171,6 +178,17 @@ export default function ShortenerPage() {
     const updatedLinks = links.filter(l => l.filename !== filename);
     saveLinksToGithub(updatedLinks);
   };
+
+  if (isCheckingAuth) {
+    return (
+      <div className="flex items-center justify-center p-4 h-full min-h-[50vh]">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-8 h-8 animate-spin text-gray-500" />
+          <p className="text-gray-500">Verifying credentials...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
