@@ -26,4 +26,5 @@ ts-debug.log*
 .env*.local
 
 # etc
-public/*.sh
+public/
+!public/CNAME

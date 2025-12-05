@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-// Read links from data/links.json
+// read links from data/links.json
 const linksPath = path.join(process.cwd(), 'data', 'links.json');
 const scripts = JSON.parse(fs.readFileSync(linksPath, 'utf-8'));
 
@@ -39,7 +39,16 @@ async function generate() {
       if (script.type === 'shell') {
         console.log(`Generating shell wrapper for ${script.filename} -> ${script.url}...`);
         content = generateShellWrapper(script.url);
-        fs.writeFileSync(path.join(outputDir, script.filename), content);
+        
+        const linkPath = path.join(outputDir, script.filename);
+
+        // clean up if it was previously a directory (from a redirect)
+        if (fs.existsSync(linkPath) && fs.statSync(linkPath).isDirectory()) {
+          fs.rmSync(linkPath, { recursive: true, force: true });
+        }
+
+        // write directly to file for shell scripts
+        fs.writeFileSync(linkPath, content);
       } else {
         console.log(`Generating redirect for ${script.filename} -> ${script.url}...`);
         content = generateRedirectHtml(script.url);
