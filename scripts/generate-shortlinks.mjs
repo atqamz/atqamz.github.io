@@ -1,13 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const scripts = [
-  {
-    url: 'https://raw.githubusercontent.com/atqamz/dotfiles/refs/heads/master/fedora-fresh.sh',
-    filename: 'fedora-fresh.sh',
-    type: 'shell'
-  }
-];
+// Read links from data/links.json
+const linksPath = path.join(process.cwd(), 'data', 'links.json');
+const scripts = JSON.parse(fs.readFileSync(linksPath, 'utf-8'));
 
 const outputDir = path.join(process.cwd(), 'public');
 
