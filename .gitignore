@@ -26,6 +26,6 @@ ts-debug.log*
 .env*.local
 
 # etc
-public/
+public/*
 !public/CNAME
 !public/.nojekyll
