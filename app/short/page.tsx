@@ -174,7 +174,7 @@ export default function ShortenerPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <div className="flex items-center justify-center p-4 h-full">
         <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
           <div className="flex justify-center mb-6">
             <GithubIcon className="w-12 h-12 text-gray-800" />
@@ -210,7 +210,7 @@ export default function ShortenerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Link Manager</h1>
