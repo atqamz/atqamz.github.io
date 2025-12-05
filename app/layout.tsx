@@ -30,9 +30,9 @@ export default function RootLayout({
         <footer className="bg-gray-100 py-6 text-center text-gray-500 text-sm">
           <div className="flex justify-center space-x-4 mb-2">
             <a href="https://github.com/atqamz" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">GitHub</a>
-            <a href="https://www.linkedin.com/in/atqamz/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">LinkedIn</a>
+            <a href="https://www.linkedin.com/in/atqamunzir/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">LinkedIn</a>
           </div>
-          © {new Date().getFullYear()} atqamz. Built with Next.js & MDX.
+          © {new Date().getFullYear()} Atqa Munzir.
         </footer>
       </body>
     </html>

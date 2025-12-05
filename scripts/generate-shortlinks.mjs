@@ -32,20 +32,34 @@ curl -fsSL "${url}" | bash -s -- "$@"
 `;
 }
 
-async function updateScripts() {
+async function generate() {
   for (const script of scripts) {
     try {
       let content;
       if (script.type === 'shell') {
         console.log(`Generating shell wrapper for ${script.filename} -> ${script.url}...`);
         content = generateShellWrapper(script.url);
+        fs.writeFileSync(path.join(outputDir, script.filename), content);
       } else {
         console.log(`Generating redirect for ${script.filename} -> ${script.url}...`);
         content = generateRedirectHtml(script.url);
+        
+        // for HTML redirects, create folder/index.html so it renders as a page
+        const linkDir = path.join(outputDir, script.filename);
+        
+        // clean up if it was previously a file
+        if (fs.existsSync(linkDir) && fs.statSync(linkDir).isFile()) {
+          fs.unlinkSync(linkDir);
+        }
+
+        if (!fs.existsSync(linkDir)) {
+          fs.mkdirSync(linkDir, { recursive: true });
+        }
+        
+        fs.writeFileSync(path.join(linkDir, 'index.html'), content);
       }
       
-      fs.writeFileSync(path.join(outputDir, script.filename), content);
-      console.log(`Saved to public/${script.filename}`);
+      console.log(`Saved public/${script.filename}`);
     } catch (error) {
       console.error(`Error processing ${script.filename}:`, error);
       process.exit(1);
@@ -53,4 +67,4 @@ async function updateScripts() {
   }
 }
 
-updateScripts();
+generate();
