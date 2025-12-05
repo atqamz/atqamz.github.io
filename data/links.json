@@ -3,5 +3,10 @@
     "url": "https://raw.githubusercontent.com/atqamz/dotfiles/refs/heads/master/fedora-fresh.sh",
     "filename": "fedora-fresh.sh",
     "type": "shell"
+  },
+  {
+    "filename": "giveaway",
+    "url": "https://youtu.be/dQw4w9WgXcQ",
+    "type": "redirect"
   }
 ]
