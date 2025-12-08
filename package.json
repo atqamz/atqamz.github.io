@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "node scripts/generate-shortlinks.mjs && next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "next lint"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.0.0",
