@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Trash2, ExternalLink, Plus, Save, LogOut, Loader2 } from 'lucide-react';
 
 interface Link {
@@ -54,33 +54,14 @@ export default function ShortenerPage() {
   const [newUrl, setNewUrl] = useState('');
   const [newType, setNewType] = useState<'redirect' | 'shell'>('redirect');
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem('github_pat');
-    if (storedToken) {
-      setToken(storedToken);
-      fetchLinks(storedToken);
-    } else {
-      setIsCheckingAuth(false);
-    }
-  }, []);
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (token) {
-      localStorage.setItem('github_pat', token);
-      setIsCheckingAuth(true);
-      fetchLinks(token);
-    }
-  };
-
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     localStorage.removeItem('github_pat');
     setToken('');
     setIsAuthenticated(false);
     setLinks([]);
-  };
+  }, []);
 
-  const fetchLinks = async (authToken: string) => {
+  const fetchLinks = useCallback(async (authToken: string) => {
     setLoading(true);
     setError('');
     try {
@@ -114,6 +95,25 @@ export default function ShortenerPage() {
     } finally {
       setLoading(false);
       setIsCheckingAuth(false);
+    }
+  }, [handleLogout]);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('github_pat');
+    if (storedToken) {
+      setToken(storedToken);
+      fetchLinks(storedToken);
+    } else {
+      setIsCheckingAuth(false);
+    }
+  }, [fetchLinks]);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (token) {
+      localStorage.setItem('github_pat', token);
+      setIsCheckingAuth(true);
+      fetchLinks(token);
     }
   };
 

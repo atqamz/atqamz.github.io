@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
 import { ThemeProvider } from "./providers";
 import { ThemeToggle } from "./components/theme-toggle";
@@ -19,11 +20,11 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <header className="bg-white dark:bg-gray-800 shadow-sm transition-colors duration-300">
             <nav className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-              <a href="/" className="font-bold text-xl">atqamz</a>
+              <Link href="/" className="font-bold text-xl">atqamz</Link>
               <div className="flex items-center space-x-6">
-                <a href="/" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a>
-                <a href="/blog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Blog</a>
-                <a href="/resume" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Resume</a>
+                <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</Link>
+                <Link href="/blog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Blog</Link>
+                <Link href="/resume" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Resume</Link>
                 <ThemeToggle />
               </div>
             </nav>
