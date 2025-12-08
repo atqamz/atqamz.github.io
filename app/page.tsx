@@ -6,7 +6,7 @@ export default function Home() {
       <section className="text-center py-12">
         <h1 className="text-4xl font-bold mb-4">Welcome to My Personal Space</h1>
         <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          I'm a developer passionate about building simple, effective software. 
+          I&apos;m a developer passionate about building simple, effective software. 
           This is where I share my thoughts and professional journey.
         </p>
       </section>
