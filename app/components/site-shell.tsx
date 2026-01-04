@@ -16,8 +16,8 @@ export function SiteShell({ children }: SiteShellProps) {
         <nav className="site-nav">
           <div className="site-nav-left">
             <Link href="/" className="site-logo">atqamz</Link>
-            <Link href="/blog" className="site-link">Blog</Link>
-            <Link href="/resume" className="site-link">Resume</Link>
+            <Link href="/blog" className="site-link">/blog</Link>
+            <Link href="/resume" className="site-link">/resume</Link>
           </div>
           <div className="site-divider" aria-hidden="true" />
           <div className="site-actions">

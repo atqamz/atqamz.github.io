@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="space-y-6">
       <section className="terminal-hero">
-        <h1 className="terminal-title">Welcome to My Terminal</h1>
+        <h1 className="terminal-title">/home</h1>
       </section>
 
       <div className="terminal-grid">

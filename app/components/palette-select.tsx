@@ -4,18 +4,18 @@ import * as React from "react";
 
 const PALETTES = [
   { value: "amber", label: "Amber" },
-  { value: "green", label: "Green" },
-  { value: "cyan", label: "Cyan" },
-  { value: "red", label: "Red" },
   { value: "blue", label: "Blue" },
+  { value: "cyan", label: "Cyan" },
+  { value: "green", label: "Green" },
   { value: "magenta", label: "Magenta" },
+  { value: "red", label: "Red" },
 ] as const;
 
-const DEFAULT_PALETTE = "amber";
+const DEFAULT_PALETTE = "blue";
 const STORAGE_KEY = "terminal-palette";
 
 export function PaletteSelect() {
-  const [palette, setPalette] = React.useState(DEFAULT_PALETTE);
+  const [palette, setPalette] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY);
@@ -26,9 +26,21 @@ export function PaletteSelect() {
   }, []);
 
   React.useEffect(() => {
+    if (!palette) return;
     document.documentElement.dataset.palette = palette;
     window.localStorage.setItem(STORAGE_KEY, palette);
   }, [palette]);
+
+  if (!palette) {
+    return (
+      <label className="site-palette" aria-label="Palette">
+        <span className="site-palette__label">Palette</span>
+        <select className="terminal-select" disabled>
+          <option>Loading</option>
+        </select>
+      </label>
+    );
+  }
 
   return (
     <label className="site-palette">

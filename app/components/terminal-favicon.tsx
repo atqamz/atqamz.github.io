@@ -11,10 +11,8 @@ function makeSvg(accent: string, background: string, blinkOn: boolean) {
   return `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <rect width="64" height="64" rx="10" fill="${background}"/>
-      <rect x="12" y="14" width="40" height="6" fill="${accent}" opacity="0.9"/>
-      <rect x="12" y="28" width="34" height="6" fill="${accent}" opacity="0.75"/>
-      <rect x="12" y="42" width="26" height="6" fill="${accent}" opacity="0.6"/>
-      <rect x="40" y="42" width="12" height="6" fill="${accent}" opacity="${cursorOpacity}"/>
+      <polygon points="16,18 22,18 34,32 22,46 16,46 28,32" fill="${accent}"/>
+      <rect x="32" y="42" width="18" height="6" fill="${accent}" opacity="${cursorOpacity}"/>
     </svg>
   `.trim();
 }

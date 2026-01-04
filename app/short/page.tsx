@@ -207,7 +207,7 @@ export default function ShortenerPage() {
                 type="password"
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
-                className="w-full"
+                className="terminal-field"
                 placeholder="ghp_..."
                 required
               />
@@ -229,7 +229,7 @@ export default function ShortenerPage() {
 
   return (
     <div className="p-4 md:p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="w-full">
         <div className="flex justify-between items-center mb-8">
           <h1 className="terminal-title">Link Manager</h1>
           <button
@@ -263,12 +263,12 @@ export default function ShortenerPage() {
               <div>
                 <label className="block text-sm font-medium terminal-muted mb-1">Short Name</label>
                 <div className="flex items-center">
-                  <span className="terminal-muted mr-2">/</span>
+                  <span className="terminal-muted mr-2 terminal-slash">/</span>
                   <input
                     type="text"
                     value={newFilename}
                     onChange={(e) => setNewFilename(e.target.value)}
-                    className="flex-1"
+                    className="flex-1 terminal-field"
                     placeholder="my-link"
                     required
                   />
@@ -280,7 +280,7 @@ export default function ShortenerPage() {
                   type="url"
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
-                  className="w-full"
+                  className="terminal-field"
                   placeholder="https://example.com"
                   required
                 />

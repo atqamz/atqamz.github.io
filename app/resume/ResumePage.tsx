@@ -3,13 +3,13 @@ import styles from "./resume.module.css";
 export default function ResumePage() {
   return (
     <section className={styles.page}>
-      <header className={styles.header}>
+      <section className={styles.header}>
         <h1 className={styles.name}>ATQA MUNZIR</h1>
         <p className={styles.role}>Game Programmer</p>
         <p className={styles.contact}>
           atqamz@gmail.com | linkedin.com/in/atqamunzir | bit.ly/atqamunzir_portfolio | github.com/atqamz
         </p>
-      </header>
+      </section>
 
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Summary</h2>
@@ -33,7 +33,7 @@ export default function ResumePage() {
             </div>
           </div>
           <ul className={styles.list}>
-            I code stuff.
+            <li>I code stuff.</li>
           </ul>
         </article>
 
@@ -77,7 +77,7 @@ export default function ResumePage() {
             </div>
           </div>
           <ul className={styles.list}>
-            I cheerlead stuff.
+            <li>I cheerlead stuff.</li>
           </ul>
         </article>
 
