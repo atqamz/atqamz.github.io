@@ -29,3 +29,5 @@ ts-debug.log*
 public/*
 !public/CNAME
 !public/.nojekyll
+
+/tmp

@@ -3,14 +3,14 @@ import Link from 'next/link';
 export default function BlogIndex() {
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Blog Posts</h1>
+      <h1 className="terminal-title">Blog Posts</h1>
       <div className="space-y-4">
         {/* In a real app, you'd map through posts here */}
-        <article className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
-          <Link href="/blog/hello-world" className="block group">
-            <h2 className="text-xl font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Hello World</h2>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">December 4, 2025</p>
-            <p className="mt-3 text-gray-600 dark:text-gray-300">This is my first blog post using MDX in Next.js...</p>
+        <article>
+          <Link href="/blog/hello-world" className="terminal-card">
+            <h2 className="terminal-card-title">Hello World</h2>
+            <p className="terminal-muted text-sm">December 4, 2025</p>
+            <p className="terminal-card-desc">This is my first blog post using MDX in Next.js...</p>
           </Link>
         </article>
       </div>

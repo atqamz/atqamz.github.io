@@ -1,8 +1,8 @@
 .page {
   max-width: 900px;
   margin: 0 auto;
-  background: #ffffff;
-  color: #111827;
+  background: var(--background, #ffffff);
+  color: var(--foreground, #111827);
   padding: 2rem 1.5rem 3rem;
   font-family: "Calibri", "Arial", "Helvetica Neue", sans-serif;
   font-size: 0.98rem;
@@ -10,8 +10,8 @@
 }
 
 :global(.dark) .page {
-  background: #0f172a;
-  color: #e2e8f0;
+  background: var(--background, #0f172a);
+  color: var(--foreground, #e2e8f0);
 }
 
 @media (min-width: 768px) {
@@ -40,12 +40,12 @@
 
 .contact {
   font-size: 0.92rem;
-  color: #1f2937;
+  color: var(--muted, #1f2937);
   margin: 0.35rem 0 0;
 }
 
 :global(.dark) .contact {
-  color: #cbd5f5;
+  color: var(--muted, #cbd5f5);
 }
 
 .section {
@@ -58,10 +58,11 @@
   text-transform: uppercase;
   letter-spacing: 0.2em;
   margin: 0 0 0.5rem;
+  color: var(--accent, #1f2937);
 }
 
 :global(.dark) .sectionTitle {
-  color: #cbd5f5;
+  color: var(--accent, #cbd5f5);
 }
 
 .summary {
@@ -106,13 +107,13 @@
 }
 
 .entryLocation {
-  color: #374151;
+  color: var(--muted, #374151);
   font-size: 0.9rem;
   margin: 0 0 0.2rem;
 }
 
 :global(.dark) .entryLocation {
-  color: #94a3b8;
+  color: var(--muted, #94a3b8);
 }
 
 .entryDate {
@@ -121,20 +122,20 @@
   margin: 0;
 }
 
-.list {
+.page .list {
   list-style: none;
   margin: 0.35rem 0 0;
   padding: 0;
 }
 
-.list li {
+.page .list li {
   position: relative;
   padding-left: 1.1rem;
   margin-bottom: 0.25rem;
   text-align: justify;
 }
 
-.list li::before {
+.page .list li::before {
   content: "-";
   position: absolute;
   left: 0;
