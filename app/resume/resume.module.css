@@ -1,0 +1,186 @@
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--background, #ffffff);
+  color: var(--foreground, #111827);
+  padding: 2rem 1.5rem 3rem;
+  font-family: "Calibri", "Arial", "Helvetica Neue", sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.4;
+}
+
+:global(.dark) .page {
+  background: var(--background, #0f172a);
+  color: var(--foreground, #e2e8f0);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 2.5rem 3rem 3.5rem;
+  }
+}
+
+.header {
+  margin-bottom: 1.4rem;
+}
+
+.name {
+  font-size: 2.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0;
+}
+
+.role {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0.25rem 0 0;
+}
+
+.contact {
+  font-size: 0.92rem;
+  color: var(--muted, #1f2937);
+  margin: 0.35rem 0 0;
+}
+
+:global(.dark) .contact {
+  color: var(--muted, #cbd5f5);
+}
+
+.section {
+  margin-top: 1.35rem;
+}
+
+.sectionTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin: 0 0 0.5rem;
+  color: var(--accent, #1f2937);
+}
+
+:global(.dark) .sectionTitle {
+  color: var(--accent, #cbd5f5);
+}
+
+.summary {
+  margin: 0;
+  text-align: justify;
+}
+
+.entry {
+  margin-top: 0.85rem;
+}
+
+.entryHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+}
+
+@media (max-width: 767px) {
+  .entryHeader {
+    grid-template-columns: 1fr;
+  }
+}
+
+.entryOrg {
+  font-weight: 600;
+  margin: 0 0 0.15rem;
+}
+
+.entryRole {
+  font-style: italic;
+  margin: 0;
+}
+
+.entryMeta {
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  .entryMeta {
+    text-align: left;
+  }
+}
+
+.entryLocation {
+  color: var(--muted, #374151);
+  font-size: 0.9rem;
+  margin: 0 0 0.2rem;
+}
+
+:global(.dark) .entryLocation {
+  color: var(--muted, #94a3b8);
+}
+
+.entryDate {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.page .list {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0;
+}
+
+.page .list li {
+  position: relative;
+  padding-left: 1.1rem;
+  margin-bottom: 0.25rem;
+  text-align: justify;
+}
+
+.page .list li::before {
+  content: "-";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+@media print {
+  :global(header),
+  :global(footer) {
+    display: none;
+  }
+
+  :global(main) {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    width: 100%;
+  }
+
+  .page {
+    background: #ffffff !important;
+    color: #111827 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  :global(.dark) .page {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  .entry {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .contact {
+    color: #1f2937 !important;
+  }
+
+  .sectionTitle {
+    color: #111827 !important;
+  }
+
+  .entryLocation {
+    color: #374151 !important;
+  }
+}
