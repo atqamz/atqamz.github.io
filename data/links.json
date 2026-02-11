@@ -8,5 +8,10 @@
     "filename": "giveaway",
     "url": "https://youtu.be/dQw4w9WgXcQ",
     "type": "redirect"
+  },
+  {
+    "filename": "meet",
+    "url": "https://calendar.notion.so/meet/atqa/book",
+    "type": "redirect"
   }
 ]
