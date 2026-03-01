@@ -1,7 +1,6 @@
 .page {
   max-width: 54rem;
   margin: 0 auto;
-  background: var(--background, #ffffff);
   color: var(--foreground, #111827);
   padding: var(--space-4, 1rem) 0 var(--space-6, 2rem);
   font-family: inherit;
@@ -10,7 +9,6 @@
 }
 
 :global(.dark) .page {
-  background: var(--background, #0f172a);
   color: var(--foreground, #e2e8f0);
 }
 

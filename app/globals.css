@@ -376,8 +376,6 @@
      -------------------------------------------------------- */
   html[data-layout="terminal"] .site-main img {
     max-width: 100%;
-    border: 6px solid var(--accent);
-    padding: 6px;
   }
 
   /* --------------------------------------------------------
@@ -426,60 +424,6 @@
   }
 
   /* --------------------------------------------------------
-     Title bar (terminal window chrome)
-     -------------------------------------------------------- */
-  .site-titlebar {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-2) var(--space-3);
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    transition: background-color 0.18s linear, border-color 0.18s linear;
-  }
-
-  .site-window-dots {
-    display: flex;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-
-  .site-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
-
-  .site-dot--close {
-    background: #ff5f57;
-  }
-
-  .site-dot--minimize {
-    background: #febc2e;
-  }
-
-  .site-dot--maximize {
-    background: #28c840;
-  }
-
-  .site-titlebar-path {
-    flex: 1;
-    font-size: 0.75rem;
-    color: var(--muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: center;
-  }
-
-  .site-titlebar-controls {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    flex-shrink: 0;
-  }
-
-  /* --------------------------------------------------------
      Header & nav
      -------------------------------------------------------- */
   .site-header {
@@ -488,6 +432,14 @@
     gap: var(--space-5);
     padding: var(--space-4) 0;
     border-bottom: 1px solid var(--border);
+  }
+
+  .site-header-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-left: auto;
+    flex-shrink: 0;
   }
 
   .site-logo {
@@ -664,30 +616,6 @@
     max-width: 42ch;
   }
 
-  /* MOTD (home page) */
-  .terminal-motd {
-    color: var(--accent);
-    font-size: 0.65rem;
-    line-height: 1.2;
-    border: none;
-    background: transparent;
-    padding: 0;
-    margin: var(--space-4) 0;
-    overflow-x: auto;
-  }
-
-  .terminal-motd-info {
-    margin: var(--space-4) 0;
-  }
-
-  .terminal-motd-info p {
-    margin: var(--space-1) 0;
-  }
-
-  .terminal-motd-links {
-    margin: var(--space-5) 0;
-  }
-
   /* Blog list */
   .terminal-blog-list {
     display: flex;
@@ -708,7 +636,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
-    padding: var(--space-3);
+    padding: var(--space-2) var(--space-3);
     background: color-mix(in srgb, var(--background) 92%, var(--accent) 8%);
     border: 1px solid var(--border);
     text-decoration: none;
@@ -717,15 +645,7 @@
     transition: background 0.15s linear, border-color 0.15s linear, transform 0.15s linear;
   }
 
-  .terminal-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-    pointer-events: none;
-  }
-
-  .terminal-card > * {
+  html[data-layout="terminal"] .terminal-card > * {
     margin: 0;
   }
 
@@ -878,7 +798,7 @@
   /* --------------------------------------------------------
      Icon button (theme toggle, etc.)
      -------------------------------------------------------- */
-  .terminal-icon-button {
+  html[data-layout="terminal"] button.terminal-icon-button {
     border: 1px solid var(--border);
     color: var(--accent);
     width: var(--control-height);
@@ -897,12 +817,6 @@
     width: 18px;
     height: 18px;
     display: block;
-    stroke: currentColor;
-    fill: none;
-  }
-
-  .terminal-toggle-icon {
-    stroke-width: 1.8;
   }
 
   .terminal-icon-button:hover {
@@ -1005,14 +919,6 @@
       border-right: none;
     }
 
-    .site-titlebar {
-      padding: var(--space-2);
-    }
-
-    .site-titlebar-path {
-      display: none;
-    }
-
     .site-header {
       flex-wrap: wrap;
       gap: var(--space-3);
@@ -1051,7 +957,6 @@
     margin: 0;
   }
 
-  .site-titlebar,
   .site-header,
   .site-statusbar,
   .skip-link {

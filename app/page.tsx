@@ -17,21 +17,8 @@ export default function Home() {
         <h1 className="terminal-title">welcome</h1>
       </section>
 
-      <pre className="terminal-motd" aria-label="Message of the day">
-{`  ___  _
- / _ \\| |_ __ _  __ _
-| |_| | __/ _\` |/ _\` |
-|  _  | || (_| | (_| |
-|_| |_|\\__\\__, |\\__,_|
-             |_|
-  __  __                  _
- |  \\/  |_   _ _ __  ____(_)_ __
- | |\\/| | | | | '_ \\|_  / | '__|
- | |  | | |_| | | | |/ /| | |
- |_|  |_|\\__,_|_| |_/___|_|_|   `}
-      </pre>
 
-      <div className="terminal-motd-info">
+<div className="terminal-motd-info">
         <p className="terminal-paragraph">
           game programmer &middot; full-stack developer &middot; based in indonesia
         </p>

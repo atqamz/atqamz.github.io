@@ -25,21 +25,6 @@ export function SiteShell({ children }: SiteShellProps) {
 
   return (
     <div className="site-frame">
-      <div className="site-titlebar">
-        <div className="site-window-dots" aria-hidden="true">
-          <span className="site-dot site-dot--close" />
-          <span className="site-dot site-dot--minimize" />
-          <span className="site-dot site-dot--maximize" />
-        </div>
-        <span className="site-titlebar-path">
-          atqamz@web:~{pathname === "/" ? "" : pathname}
-        </span>
-        <div className="site-titlebar-controls">
-          <PaletteSelect />
-          <ThemeToggle />
-        </div>
-      </div>
-
       <header className="site-header">
         <Link href="/" className="site-logo" aria-label="Home">
           atqamz
@@ -60,6 +45,10 @@ export function SiteShell({ children }: SiteShellProps) {
             );
           })}
         </nav>
+        <div className="site-header-controls">
+          <PaletteSelect />
+          <ThemeToggle />
+        </div>
       </header>
 
       <a href="#main-content" className="skip-link">
