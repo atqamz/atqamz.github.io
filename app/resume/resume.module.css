@@ -1,12 +1,12 @@
 .page {
-  max-width: 900px;
+  max-width: 54rem;
   margin: 0 auto;
   background: var(--background, #ffffff);
   color: var(--foreground, #111827);
-  padding: 2rem 1.5rem 3rem;
-  font-family: "Calibri", "Arial", "Helvetica Neue", sans-serif;
-  font-size: 0.98rem;
-  line-height: 1.4;
+  padding: var(--space-4, 1rem) 0 var(--space-6, 2rem);
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
 
 :global(.dark) .page {
@@ -14,70 +14,94 @@
   color: var(--foreground, #e2e8f0);
 }
 
-@media (min-width: 768px) {
-  .page {
-    padding: 2.5rem 3rem 3.5rem;
-  }
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-4, 1rem);
 }
 
 .header {
-  margin-bottom: 1.4rem;
+  margin-bottom: var(--space-4, 1rem);
 }
 
 .name {
-  font-size: 2.25rem;
+  font-size: 2rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 700;
   margin: 0;
+  color: var(--accent, #1f2937);
+}
+
+:global(.dark) .name {
+  color: var(--accent, #e2e8f0);
 }
 
 .role {
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin: 0.25rem 0 0;
+  margin: var(--space-1, 0.25rem) 0 0;
 }
 
 .contact {
-  font-size: 0.92rem;
+  font-size: 0.85rem;
   color: var(--muted, #1f2937);
-  margin: 0.35rem 0 0;
+  margin: var(--space-2, 0.5rem) 0 0;
 }
 
 :global(.dark) .contact {
   color: var(--muted, #cbd5f5);
 }
 
+.contact a {
+  color: var(--accent, #245a9e);
+  text-decoration: none;
+}
+
+.contact a:hover {
+  text-decoration: underline;
+}
+
+:global(.dark) .contact a {
+  color: var(--accent, #6aa8ff);
+}
+
+.contactSep {
+  color: var(--muted, #9ca3af);
+}
+
 .section {
-  margin-top: 1.35rem;
+  margin-top: var(--space-4, 1rem);
 }
 
 .sectionTitle {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--space-2, 0.5rem);
   color: var(--accent, #1f2937);
+  border-bottom: 2px dotted var(--accent, #1f2937);
+  padding-bottom: var(--space-1, 0.25rem);
 }
 
 :global(.dark) .sectionTitle {
   color: var(--accent, #cbd5f5);
+  border-bottom-color: var(--accent, #cbd5f5);
 }
 
 .summary {
   margin: 0;
-  text-align: justify;
 }
 
 .entry {
-  margin-top: 0.85rem;
+  margin-top: var(--space-3, 0.75rem);
 }
 
 .entryHeader {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 1rem;
+  gap: var(--space-4, 1rem);
 }
 
 @media (max-width: 767px) {
@@ -88,7 +112,7 @@
 
 .entryOrg {
   font-weight: 600;
-  margin: 0 0 0.15rem;
+  margin: 0 0 var(--space-1, 0.15rem);
 }
 
 .entryRole {
@@ -108,8 +132,8 @@
 
 .entryLocation {
   color: var(--muted, #374151);
-  font-size: 0.9rem;
-  margin: 0 0 0.2rem;
+  font-size: 0.88rem;
+  margin: 0 0 var(--space-1, 0.2rem);
 }
 
 :global(.dark) .entryLocation {
@@ -118,21 +142,20 @@
 
 .entryDate {
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   margin: 0;
 }
 
 .page .list {
   list-style: none;
-  margin: 0.35rem 0 0;
+  margin: var(--space-2, 0.35rem) 0 0;
   padding: 0;
 }
 
 .page .list li {
   position: relative;
-  padding-left: 1.1rem;
-  margin-bottom: 0.25rem;
-  text-align: justify;
+  padding-left: 1.4ch;
+  margin-bottom: var(--space-1, 0.25rem);
 }
 
 .page .list li::before {
@@ -140,8 +163,16 @@
   position: absolute;
   left: 0;
   top: 0;
+  color: var(--accent, #1f2937);
 }
 
+:global(.dark) .page .list li::before {
+  color: var(--accent, #cbd5f5);
+}
+
+/* ============================================================
+   PRINT -- ATS-friendly, sans-serif
+   ============================================================ */
 @media print {
   @page {
     size: A4;
@@ -150,7 +181,11 @@
 
   :global(header),
   :global(footer),
-  :global(.terminal-hero) {
+  :global(.terminal-hero),
+  :global(.site-titlebar),
+  :global(.site-header),
+  :global(.site-statusbar),
+  :global(.skip-link) {
     display: none !important;
   }
 
@@ -159,10 +194,17 @@
     width: 100%;
   }
 
+  .toolbar {
+    display: none !important;
+  }
+
   .page {
+    font-family: "Calibri", "Arial", "Helvetica Neue", sans-serif;
     background: #ffffff !important;
     color: #111827 !important;
     padding: 0;
+    max-width: none;
+    font-size: 0.98rem;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -172,18 +214,32 @@
     color: #111827 !important;
   }
 
-  .entry {
-    break-inside: avoid;
-    page-break-inside: avoid;
+  .name {
+    color: #111827 !important;
   }
 
   .sectionTitle {
     color: #111827 !important;
+    border-bottom-color: #111827 !important;
     break-after: avoid;
   }
 
   .contact {
     color: #1f2937 !important;
+  }
+
+  .contact a {
+    color: #1f2937 !important;
+    text-decoration: none !important;
+  }
+
+  .contactSep {
+    color: #6b7280 !important;
+  }
+
+  .entry {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .entryDate {
@@ -192,5 +248,9 @@
 
   .entryLocation {
     color: #374151 !important;
+  }
+
+  .page .list li::before {
+    color: #111827 !important;
   }
 }

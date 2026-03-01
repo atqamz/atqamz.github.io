@@ -3,8 +3,11 @@ import type { ResumeData } from "../types";
 const base: ResumeData = {
   name: "ATQA MUNZIR",
   role: "Game Programmer",
-  contact:
-    "atqamz@gmail.com | linkedin.com/in/atqamunzir | bit.ly/atqamunzir_portfolio | github.com/atqamz",
+  contact: [
+    { label: "atqamz@gmail.com", href: "mailto:atqamz@gmail.com" },
+    { label: "linkedin.com/in/atqamunzir", href: "https://linkedin.com/in/atqamunzir" },
+    { label: "github.com/atqamz", href: "https://github.com/atqamz" },
+  ],
   summary:
     "A skilled Coder proficient in C#, Unity, C++, Unreal Engine. With hands-on experience in both game programming and full-stack backend development. Demonstrated ability to lead teams and deliver critical in-game systems, such as cross-platform payment utilities and online services. Experienced in building and maintaining CI/CD pipelines to streamline development. Eager to contribute technical expertise and a passion for gaming to a forward-thinking team.",
   sections: [
@@ -16,7 +19,6 @@ const base: ResumeData = {
           role: "Junior Game Programmer - Full-time (Remote)",
           location: "Singapore",
           date: "Jul 2025 - Present",
-          items: ["I code stuff."],
         },
         {
           org: "Timedoor Academy",
@@ -34,7 +36,6 @@ const base: ResumeData = {
           role: "Cheerleader - Part-time (Remote)",
           location: "Surabaya, Indonesia",
           date: "Jan 2025 - Present",
-          items: ["I cheerlead stuff."],
         },
         {
           org: "Sepay Studio",
