@@ -12,12 +12,6 @@
   color: var(--foreground, #e2e8f0);
 }
 
-.toolbar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: var(--space-4, 1rem);
-}
-
 .header {
   margin-bottom: var(--space-4, 1rem);
 }
@@ -90,6 +84,7 @@
 
 .summary {
   margin: 0;
+  text-align: justify;
 }
 
 .entry {
@@ -154,6 +149,7 @@
   position: relative;
   padding-left: 1.4ch;
   margin-bottom: var(--space-1, 0.25rem);
+  text-align: justify;
 }
 
 .page .list li::before {
@@ -166,6 +162,12 @@
 
 :global(.dark) .page .list li::before {
   color: var(--accent, #cbd5f5);
+}
+
+.page p,
+.page h2,
+.page ul {
+  margin: 0;
 }
 
 /* ============================================================
@@ -187,13 +189,14 @@
     display: none !important;
   }
 
-  :global(main) {
+  :global(main),
+  :global(.site-main) {
     padding: 0;
     width: 100%;
   }
 
-  .toolbar {
-    display: none !important;
+  .entryHeader {
+    grid-template-columns: minmax(0, 1fr) 9rem;
   }
 
   .page {
@@ -202,7 +205,8 @@
     color: #111827 !important;
     padding: 0;
     max-width: none;
-    font-size: 0.98rem;
+    font-size: 0.95rem;
+    line-height: 1.35;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -212,18 +216,52 @@
     color: #111827 !important;
   }
 
+  .header {
+    margin-bottom: 0;
+  }
+
   .name {
     color: #111827 !important;
+    font-size: 1.5rem;
+  }
+
+  .role {
+    margin-top: 0;
+  }
+
+  .section {
+    margin-top: 0;
   }
 
   .sectionTitle {
     color: #111827 !important;
     border-bottom-color: #111827 !important;
     break-after: avoid;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .entry {
+    margin-top: 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .entryOrg {
+    margin-bottom: 0;
+  }
+
+  .page .list {
+    margin-top: 0;
+  }
+
+  .page .list li {
+    margin-bottom: 0;
   }
 
   .contact {
     color: #1f2937 !important;
+    margin-top: 0;
   }
 
   .contact a {
@@ -233,11 +271,6 @@
 
   .contactSep {
     color: #6b7280 !important;
-  }
-
-  .entry {
-    break-inside: avoid;
-    page-break-inside: avoid;
   }
 
   .entryDate {

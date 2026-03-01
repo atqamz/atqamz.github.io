@@ -17,15 +17,12 @@ export default function Home() {
         <h1 className="terminal-title">welcome</h1>
       </section>
 
-
-<div className="terminal-motd-info">
-        <p className="terminal-paragraph">
+      <p className="terminal-paragraph">
           game programmer &middot; full-stack developer &middot; based in indonesia
         </p>
         <p className="terminal-paragraph terminal-muted">
           i build games, backend systems, and occasionally break things on purpose.
         </p>
-      </div>
 
       <section className="terminal-motd-links">
         <p className="terminal-prompt">links</p>

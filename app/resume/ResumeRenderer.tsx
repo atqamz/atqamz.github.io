@@ -1,21 +1,9 @@
-"use client";
-
 import type { ResumeData } from "./types";
 import styles from "./resume.module.css";
 
 export default function ResumeRenderer({ data }: { data: ResumeData }) {
   return (
     <section className={styles.page}>
-      <div className={styles.toolbar}>
-        <button
-          className="terminal-button"
-          onClick={() => window.print()}
-          type="button"
-        >
-          print / download pdf
-        </button>
-      </div>
-
       <section className={styles.header}>
         <h1 className={styles.name}>{data.name}</h1>
         <p className={styles.role}>{data.role}</p>
