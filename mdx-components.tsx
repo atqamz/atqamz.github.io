@@ -5,7 +5,6 @@ const cx = (...classes: Array<string | undefined>) =>
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
-    // Allows customizing built-in components, e.g. to add styling.
     h1: ({ children, className, ...props }) => (
       <h1 {...props} className={cx("terminal-title", className)}>
         {children}
@@ -15,6 +14,26 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <h2 {...props} className={cx("terminal-section", className)}>
         {children}
       </h2>
+    ),
+    h3: ({ children, className, ...props }) => (
+      <h3 {...props} className={cx("terminal-section", className)}>
+        {children}
+      </h3>
+    ),
+    h4: ({ children, className, ...props }) => (
+      <h4 {...props} className={cx("terminal-section", className)}>
+        {children}
+      </h4>
+    ),
+    h5: ({ children, className, ...props }) => (
+      <h5 {...props} className={cx("terminal-section", className)}>
+        {children}
+      </h5>
+    ),
+    h6: ({ children, className, ...props }) => (
+      <h6 {...props} className={cx("terminal-section", className)}>
+        {children}
+      </h6>
     ),
     p: ({ children, className, ...props }) => (
       <p {...props} className={cx("terminal-paragraph", className)}>
@@ -26,11 +45,32 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </ul>
     ),
+    ol: ({ children, className, ...props }) => (
+      <ol {...props} className={className}>
+        {children}
+      </ol>
+    ),
     a: ({ children, className, ...props }) => (
       <a {...props} className={cx("terminal-link", className)}>
         {children}
       </a>
     ),
+    blockquote: ({ children, className, ...props }) => (
+      <blockquote {...props} className={className}>
+        {children}
+      </blockquote>
+    ),
+    pre: ({ children, className, ...props }) => (
+      <pre {...props} className={className}>
+        {children}
+      </pre>
+    ),
+    code: ({ children, className, ...props }) => (
+      <code {...props} className={className}>
+        {children}
+      </code>
+    ),
+    hr: (props) => <hr {...props} className="terminal-divider" />,
     ...components,
   }
 }
