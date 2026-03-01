@@ -798,3 +798,22 @@
     color: var(--accent);
   }
 }
+
+@media print {
+  html[data-layout="terminal"] body {
+    background: #ffffff !important;
+    background-image: none !important;
+  }
+
+  html[data-layout="terminal"] body::before,
+  html[data-layout="terminal"] body::after {
+    display: none !important;
+  }
+
+  html[data-layout="terminal"] .site-frame {
+    max-width: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+}

@@ -143,21 +143,26 @@
 }
 
 @media print {
+  @page {
+    size: A4;
+    margin: 0.5in 0.6in;
+  }
+
   :global(header),
-  :global(footer) {
-    display: none;
+  :global(footer),
+  :global(.terminal-hero) {
+    display: none !important;
   }
 
   :global(main) {
-    max-width: 56rem;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 0;
     width: 100%;
   }
 
   .page {
     background: #ffffff !important;
     color: #111827 !important;
+    padding: 0;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -172,11 +177,16 @@
     page-break-inside: avoid;
   }
 
+  .sectionTitle {
+    color: #111827 !important;
+    break-after: avoid;
+  }
+
   .contact {
     color: #1f2937 !important;
   }
 
-  .sectionTitle {
+  .entryDate {
     color: #111827 !important;
   }
 
