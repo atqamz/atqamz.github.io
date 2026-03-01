@@ -3,11 +3,7 @@
 import * as React from "react"
 import { useTheme } from "next-themes"
 
-type ThemeToggleProps = {
-  variant?: "terminal" | "legacy"
-}
-
-export function ThemeToggle({ variant = "terminal" }: ThemeToggleProps) {
+export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
 
@@ -16,18 +12,13 @@ export function ThemeToggle({ variant = "terminal" }: ThemeToggleProps) {
   }, [])
 
   if (!mounted) {
-    return <div className="w-5 h-5" /> // Placeholder to prevent layout shift
+    return <div className="terminal-icon-button" style={{ visibility: "hidden" }} />
   }
-
-  const buttonClass =
-    variant === "legacy"
-      ? "p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-      : "terminal-icon-button"
 
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className={buttonClass}
+      className="terminal-icon-button"
       aria-label="Toggle theme"
     >
       {theme === "dark" ? (
