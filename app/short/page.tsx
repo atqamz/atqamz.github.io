@@ -350,7 +350,7 @@ export default function ShortenerPage() {
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleDeleteLink(link.filename)}
                       disabled={loading}

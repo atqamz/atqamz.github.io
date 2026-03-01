@@ -37,6 +37,7 @@ export function TerminalFavicon() {
       return { accent, background };
     };
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let blinkOn = true;
     const link = ensureLink();
 
@@ -49,10 +50,26 @@ export function TerminalFavicon() {
 
     updateIcon();
 
-    const interval = window.setInterval(() => {
-      blinkOn = !blinkOn;
-      updateIcon();
-    }, BLINK_INTERVAL);
+    let interval: number | null = null;
+
+    const startBlink = () => {
+      if (prefersReducedMotion.matches) {
+        if (interval) {
+          window.clearInterval(interval);
+          interval = null;
+        }
+        blinkOn = true;
+        updateIcon();
+        return;
+      }
+      interval = window.setInterval(() => {
+        blinkOn = !blinkOn;
+        updateIcon();
+      }, BLINK_INTERVAL);
+    };
+
+    startBlink();
+    prefersReducedMotion.addEventListener("change", startBlink);
 
     const observer = new MutationObserver(() => updateIcon());
     observer.observe(document.documentElement, {
@@ -61,7 +78,8 @@ export function TerminalFavicon() {
     });
 
     return () => {
-      window.clearInterval(interval);
+      if (interval) window.clearInterval(interval);
+      prefersReducedMotion.removeEventListener("change", startBlink);
       observer.disconnect();
     };
   }, []);
