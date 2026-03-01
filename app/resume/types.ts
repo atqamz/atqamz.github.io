@@ -1,3 +1,8 @@
+export interface ContactItem {
+  label: string;
+  href: string;
+}
+
 export interface ResumeEntry {
   org: string;
   role: string;
@@ -14,7 +19,7 @@ export interface ResumeSection {
 export interface ResumeData {
   name: string;
   role: string;
-  contact: string;
+  contact: ContactItem[];
   summary: string;
   sections: ResumeSection[];
 }

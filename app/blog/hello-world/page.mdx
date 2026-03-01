@@ -1,5 +1,14 @@
+export const meta = {
+  title: "Hello World",
+  date: "2025-12-04",
+  description: "My first blog post using MDX in Next.js.",
+}
+
 <section className="terminal-hero">
-    <h1 className="terminal-title">/blog/hello-word</h1>
+  <h1 className="terminal-title">{meta.title}</h1>
+  <time className="terminal-muted" dateTime={meta.date}>
+    {new Date(meta.date + "T00:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+  </time>
 </section>
 
 Welcome to my first blog post!

@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   BASE LAYER -- reset, palette, typography
+   ============================================================ */
 @layer base {
   html {
     box-sizing: border-box;
@@ -22,12 +25,27 @@
     flex-direction: column;
   }
 
+  /* --------------------------------------------------------
+     Design tokens
+     -------------------------------------------------------- */
   html[data-layout="terminal"] {
     --font-size: 1rem;
     --line-height: 1.54;
     --radius: 0px;
     --control-height: 36px;
     --control-padding-x: 10px;
+
+    /* spacing scale (based on line-height multiples) */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-7: 3rem;
+    --space-8: 4rem;
+
+    /* light palette (amber default kept for reference; blue is default via data-palette) */
     --background: #f5f1e8;
     --foreground: #1a170f;
     --accent: #b07d1d;
@@ -53,6 +71,15 @@
     --accent-soft: color-mix(in srgb, var(--accent) 22%, transparent);
     --scanline: rgba(0, 0, 0, 0.25);
     --noise-opacity: 0.08;
+  }
+
+  /* palette overrides -- amber light adjusted for 4.5:1 contrast */
+  html[data-layout="terminal"][data-palette="amber"] {
+    --accent: #8a6200;
+  }
+
+  html.dark[data-layout="terminal"][data-palette="amber"] {
+    --accent: #eec35e;
   }
 
   html[data-layout="terminal"][data-palette="green"] {
@@ -95,6 +122,9 @@
     --accent: #d88cff;
   }
 
+  /* --------------------------------------------------------
+     Body & CRT effects
+     -------------------------------------------------------- */
   html[data-layout="terminal"] body {
     font-family: "Fira Code", "JetBrains Mono", Monaco, Consolas, "Ubuntu Mono", monospace;
     font-size: var(--font-size);
@@ -114,6 +144,7 @@
       radial-gradient(circle at 82% 12%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 50%),
       linear-gradient(180deg, color-mix(in srgb, var(--background) 88%, #000000), var(--background));
     background-attachment: fixed;
+    transition: background-color 0.18s linear, color 0.18s linear;
   }
 
   html[data-layout="terminal"] body::before {
@@ -148,25 +179,43 @@
     z-index: 0;
   }
 
+  /* --------------------------------------------------------
+     Headings
+     -------------------------------------------------------- */
   html[data-layout="terminal"] h1 {
     font-size: calc(var(--font-size) * 1.55);
+    font-weight: 700;
     letter-spacing: 0;
   }
 
   html[data-layout="terminal"] h2 {
     font-size: calc(var(--font-size) * 1.35);
+    font-weight: 700;
     letter-spacing: 0;
   }
 
   html[data-layout="terminal"] h3 {
     font-size: calc(var(--font-size) * 1.15);
+    font-weight: 600;
     letter-spacing: 0;
   }
 
-  html[data-layout="terminal"] h4,
-  html[data-layout="terminal"] h5,
+  html[data-layout="terminal"] h4 {
+    font-size: var(--font-size);
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  html[data-layout="terminal"] h5 {
+    font-size: var(--font-size);
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
   html[data-layout="terminal"] h6 {
-    font-size: calc(var(--font-size) * 1);
+    font-size: var(--font-size);
+    font-weight: 500;
+    font-style: italic;
     letter-spacing: 0;
   }
 
@@ -179,17 +228,20 @@
   html[data-layout="terminal"] p,
   html[data-layout="terminal"] ul,
   html[data-layout="terminal"] ol,
-  html[data-layout="terminal"] img,
   html[data-layout="terminal"] figure,
   html[data-layout="terminal"] video,
   html[data-layout="terminal"] table,
   html[data-layout="terminal"] pre {
-    margin: 1rem 0;
+    margin: var(--space-4) 0;
   }
 
+  /* --------------------------------------------------------
+     Inline elements
+     -------------------------------------------------------- */
   html[data-layout="terminal"] a {
     color: var(--accent);
     text-decoration: none;
+    transition: color 0.15s linear;
   }
 
   html[data-layout="terminal"] a:hover {
@@ -223,7 +275,7 @@
   html[data-layout="terminal"] input:focus-visible,
   html[data-layout="terminal"] select:focus-visible,
   html[data-layout="terminal"] textarea:focus-visible {
-    outline: 1px solid var(--accent);
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 
@@ -256,6 +308,9 @@
     padding-right: calc(var(--control-padding-x) + 18px);
   }
 
+  /* --------------------------------------------------------
+     Lists
+     -------------------------------------------------------- */
   html[data-layout="terminal"] ul {
     list-style: none;
     margin-left: 2ch;
@@ -279,10 +334,13 @@
     padding: 0;
   }
 
+  /* --------------------------------------------------------
+     Code blocks
+     -------------------------------------------------------- */
   html[data-layout="terminal"] pre {
     background: var(--surface);
     border: 1px solid var(--border);
-    padding: 16px;
+    padding: var(--space-4);
     overflow-x: auto;
   }
 
@@ -299,26 +357,53 @@
     padding: 0;
   }
 
-  html[data-layout="terminal"] img {
-    max-width: 100%;
-    border: 6px solid var(--accent);
-    padding: 6px;
+  /* --------------------------------------------------------
+     Blockquote
+     -------------------------------------------------------- */
+  html[data-layout="terminal"] blockquote {
+    margin: var(--space-4) 0;
+    padding: var(--space-2) var(--space-4);
+    border-left: 3px solid var(--accent);
+    color: var(--muted);
   }
 
+  html[data-layout="terminal"] blockquote p {
+    margin: var(--space-2) 0;
+  }
+
+  /* --------------------------------------------------------
+     Images (scoped to content areas via .site-main)
+     -------------------------------------------------------- */
+  html[data-layout="terminal"] .site-main img {
+    max-width: 100%;
+  }
+
+  /* --------------------------------------------------------
+     Selection & motion
+     -------------------------------------------------------- */
   html[data-layout="terminal"] ::selection {
     background: var(--accent);
     color: var(--background);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html[data-layout="terminal"] body::before,
-    html[data-layout="terminal"] body::after {
-      animation: none;
+    html[data-layout="terminal"] *,
+    html[data-layout="terminal"] *::before,
+    html[data-layout="terminal"] *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
   }
 }
 
+/* ============================================================
+   COMPONENTS LAYER -- site shell, terminal components
+   ============================================================ */
 @layer components {
+  /* --------------------------------------------------------
+     Site frame (terminal window)
+     -------------------------------------------------------- */
   .site-frame {
     position: relative;
     z-index: 1;
@@ -326,36 +411,35 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    transition: border-color 0.18s linear;
   }
 
   html[data-layout="terminal"] .site-frame {
     max-width: 54rem;
     min-height: 100vh;
     margin: 0 auto;
-    padding: 40px 40px 24px;
+    padding: 0 var(--space-6) var(--space-5);
+    border-left: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
     border-right: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
+  /* --------------------------------------------------------
+     Header & nav
+     -------------------------------------------------------- */
   .site-header {
-    margin-bottom: 24px;
-    width: 100%;
-  }
-
-  .site-nav {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 16px;
+    gap: var(--space-5);
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--border);
   }
 
-  .site-nav-left {
+  .site-header-controls {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 18px;
-    flex: 0 1 auto;
-    min-width: 0;
+    gap: var(--space-2);
+    margin-left: auto;
+    flex-shrink: 0;
   }
 
   .site-logo {
@@ -369,10 +453,15 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     position: relative;
+    transition: background-color 0.18s linear;
   }
 
   html[data-layout="terminal"] a.site-logo {
     color: var(--background);
+  }
+
+  html[data-layout="terminal"] a.site-logo:hover {
+    text-decoration: none;
   }
 
   html[data-layout="terminal"] .site-logo::after {
@@ -385,9 +474,19 @@
     animation: cursor-blink 1.2s steps(2, start) infinite;
   }
 
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
   .site-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3ch;
     color: var(--foreground);
     text-decoration: none;
+    transition: color 0.15s linear;
   }
 
   .site-link:hover {
@@ -395,25 +494,87 @@
     text-decoration: underline;
   }
 
-  .site-divider {
-    flex: 1 1 140px;
-    height: 32px;
-    min-width: 80px;
-    background: repeating-linear-gradient(90deg, var(--accent), var(--accent) 2px, transparent 0, transparent 10px);
-    opacity: 0.7;
+  .site-link--active {
+    color: var(--accent);
+    font-weight: 600;
   }
 
-  .site-actions {
+  .site-link--active:hover {
+    text-decoration: none;
+  }
+
+  .site-link-indicator {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* --------------------------------------------------------
+     Skip link (accessibility)
+     -------------------------------------------------------- */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: 100;
+    padding: var(--space-2) var(--space-4);
+    background: var(--accent);
+    color: var(--background);
+    font-weight: 600;
+  }
+
+  .skip-link:focus {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    text-decoration: none;
+  }
+
+  /* --------------------------------------------------------
+     Main content
+     -------------------------------------------------------- */
+  .site-main {
+    flex: 1;
+    width: 100%;
+    padding: var(--space-5) 0;
+  }
+
+  /* --------------------------------------------------------
+     Status bar (footer)
+     -------------------------------------------------------- */
+  .site-statusbar {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex: 0 0 auto;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-2) var(--space-3);
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.75rem;
+    transition: background-color 0.18s linear, border-color 0.18s linear;
   }
 
+  .site-statusbar-left {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .site-statusbar-right {
+    white-space: nowrap;
+  }
+
+  /* --------------------------------------------------------
+     Palette select
+     -------------------------------------------------------- */
   .site-palette {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
   }
 
   .site-palette__label {
@@ -423,36 +584,14 @@
     color: var(--muted);
   }
 
-  .site-main {
-    flex: 1;
-    width: 100%;
-  }
-
-  .site-footer {
-    margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    text-align: center;
-    width: 100%;
-  }
-
-  .site-footer p {
-    margin: 12px 0 0;
-  }
-
-  .site-footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
+  /* --------------------------------------------------------
+     Terminal hero (page headers)
+     -------------------------------------------------------- */
   .terminal-hero {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 8px 0 12px;
+    gap: var(--space-3);
+    padding: var(--space-2) 0 var(--space-1);
   }
 
   .terminal-prompt {
@@ -467,18 +606,9 @@
     position: relative;
     color: var(--accent);
     margin: 0;
-    padding-bottom: 14px;
+    padding-bottom: var(--space-3);
     border-bottom: 3px dotted var(--accent);
     text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 35%, transparent);
-  }
-
-  .terminal-title::after {
-    content: "";
-    position: absolute;
-    bottom: 2px;
-    left: 0;
-    width: 100%;
-    border-bottom: 3px dotted var(--accent);
   }
 
   .terminal-lead {
@@ -486,41 +616,45 @@
     max-width: 42ch;
   }
 
+  /* Blog list */
+  .terminal-blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  /* --------------------------------------------------------
+     Terminal grid / cards
+     -------------------------------------------------------- */
   .terminal-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 10px;
+    gap: var(--space-3);
   }
 
   .terminal-card {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding: 12px 12px 10px;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
     background: color-mix(in srgb, var(--background) 92%, var(--accent) 8%);
     border: 1px solid var(--border);
     text-decoration: none;
     color: inherit;
     position: relative;
-    transition: background 0.2s linear, border-color 0.2s linear, transform 0.2s ease;
+    transition: background 0.15s linear, border-color 0.15s linear, transform 0.15s linear;
   }
 
-  .terminal-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-    pointer-events: none;
-  }
-
-  .terminal-card > * {
+  html[data-layout="terminal"] .terminal-card > * {
     margin: 0;
   }
 
-  .terminal-card:hover {
+  .terminal-card:hover,
+  .terminal-card:focus-visible {
     background: color-mix(in srgb, var(--accent) 10%, var(--surface));
     border-color: var(--accent);
     transform: translateY(-2px);
+    text-decoration: none;
   }
 
   .terminal-card-header {
@@ -562,20 +696,23 @@
     line-height: 1.3;
   }
 
+  /* --------------------------------------------------------
+     Terminal content elements
+     -------------------------------------------------------- */
   .terminal-section {
     color: var(--accent);
     border-bottom: 2px dotted var(--accent);
-    padding-bottom: 6px;
-    margin-top: 24px;
+    padding-bottom: var(--space-2);
+    margin-top: var(--space-5);
   }
 
   .terminal-paragraph {
     color: var(--foreground);
-    margin: 12px 0;
+    margin: var(--space-3) 0;
   }
 
   .terminal-list {
-    margin: 12px 0 12px 2ch;
+    margin: var(--space-3) 0 var(--space-3) 2ch;
   }
 
   .terminal-link {
@@ -585,16 +722,19 @@
     text-underline-offset: 3px;
   }
 
+  /* --------------------------------------------------------
+     Terminal panels
+     -------------------------------------------------------- */
   .terminal-panel {
     background: var(--surface);
     border: 1px solid var(--border);
-    padding: 20px;
+    padding: var(--space-5);
   }
 
   .terminal-panel-header {
     background: var(--surface-strong);
     border-bottom: 1px solid var(--border);
-    padding: 12px 20px;
+    padding: var(--space-3) var(--space-5);
   }
 
   .terminal-rows > * + * {
@@ -609,6 +749,9 @@
     background: color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
+  /* --------------------------------------------------------
+     Terminal utility classes
+     -------------------------------------------------------- */
   .terminal-muted {
     color: var(--muted);
   }
@@ -617,18 +760,21 @@
     color: var(--accent);
   }
 
+  /* --------------------------------------------------------
+     Terminal buttons
+     -------------------------------------------------------- */
   .terminal-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: var(--space-2);
     border: 2px solid var(--accent);
     color: var(--accent);
     background: transparent;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    padding: 8px 16px;
+    padding: var(--space-2) var(--space-4);
     cursor: pointer;
     transition: background 0.15s linear, border-color 0.15s linear, color 0.15s linear;
   }
@@ -649,7 +795,10 @@
     background: transparent;
   }
 
-  .terminal-icon-button {
+  /* --------------------------------------------------------
+     Icon button (theme toggle, etc.)
+     -------------------------------------------------------- */
+  html[data-layout="terminal"] button.terminal-icon-button {
     border: 1px solid var(--border);
     color: var(--accent);
     width: var(--control-height);
@@ -661,18 +810,13 @@
     line-height: 0;
     background: transparent;
     overflow: visible;
+    transition: background 0.15s linear, border-color 0.15s linear, color 0.15s linear;
   }
 
   .terminal-icon-button svg {
     width: 18px;
     height: 18px;
     display: block;
-    stroke: currentColor;
-    fill: none;
-  }
-
-  .terminal-toggle-icon {
-    stroke-width: 1.8;
   }
 
   .terminal-icon-button:hover {
@@ -681,6 +825,9 @@
     background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
+  /* --------------------------------------------------------
+     Danger styling
+     -------------------------------------------------------- */
   .terminal-danger {
     color: #d05757;
     border-color: color-mix(in srgb, #d05757 35%, var(--border));
@@ -692,6 +839,9 @@
     background: color-mix(in srgb, #d05757 12%, transparent);
   }
 
+  /* --------------------------------------------------------
+     Form elements
+     -------------------------------------------------------- */
   .terminal-select {
     min-width: 140px;
     text-transform: uppercase;
@@ -711,6 +861,9 @@
     height: var(--control-height);
   }
 
+  /* --------------------------------------------------------
+     Badge, alert, divider
+     -------------------------------------------------------- */
   .terminal-badge {
     border: 1px solid var(--border);
     padding: 2px 6px;
@@ -722,8 +875,8 @@
 
   .terminal-alert {
     border: 1px solid;
-    padding: 12px 16px;
-    margin-bottom: 16px;
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-4);
   }
 
   .terminal-alert--error {
@@ -742,6 +895,9 @@
     border-top: 1px solid var(--border);
   }
 
+  /* --------------------------------------------------------
+     Animations
+     -------------------------------------------------------- */
   @keyframes cursor-blink {
     0%,
     50% {
@@ -753,52 +909,36 @@
     }
   }
 
+  /* --------------------------------------------------------
+     Mobile
+     -------------------------------------------------------- */
   @media (max-width: 720px) {
     html[data-layout="terminal"] .site-frame {
-      padding: 24px 20px;
+      padding: 0 var(--space-3) var(--space-3);
+      border-left: none;
       border-right: none;
     }
 
-    .site-actions {
-      order: 3;
-      width: 100%;
-      justify-content: flex-start;
-    }
-
-    .site-nav-left {
-      order: 1;
-      width: 100%;
-    }
-
-    .site-divider {
-      order: 2;
-      width: 100%;
-      min-width: 100%;
-      height: 16px;
+    .site-header {
+      flex-wrap: wrap;
+      gap: var(--space-3);
     }
 
     .site-palette__label {
       display: none;
     }
-  }
 
-  @media (prefers-reduced-motion: reduce) {
-    html[data-layout="terminal"] .site-logo::after {
-      animation: none;
+    .site-statusbar {
+      flex-wrap: wrap;
+      font-size: 0.65rem;
+      gap: var(--space-2);
     }
   }
 }
 
-@layer utilities {
-  .text-muted {
-    color: var(--muted);
-  }
-
-  .text-accent {
-    color: var(--accent);
-  }
-}
-
+/* ============================================================
+   PRINT
+   ============================================================ */
 @media print {
   html[data-layout="terminal"] body {
     background: #ffffff !important;
@@ -815,5 +955,11 @@
     border: none;
     padding: 0;
     margin: 0;
+  }
+
+  .site-header,
+  .site-statusbar,
+  .skip-link {
+    display: none !important;
   }
 }

@@ -7,7 +7,16 @@ export default function ResumeRenderer({ data }: { data: ResumeData }) {
       <section className={styles.header}>
         <h1 className={styles.name}>{data.name}</h1>
         <p className={styles.role}>{data.role}</p>
-        <p className={styles.contact}>{data.contact}</p>
+        <p className={styles.contact}>
+          {data.contact.map((item, i) => (
+            <span key={item.href}>
+              {i > 0 && <span className={styles.contactSep}> | </span>}
+              <a href={item.href} target="_blank" rel="noopener noreferrer">
+                {item.label}
+              </a>
+            </span>
+          ))}
+        </p>
       </section>
 
       <section className={styles.section}>

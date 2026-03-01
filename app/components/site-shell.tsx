@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { PaletteSelect } from "./palette-select";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -9,32 +10,63 @@ type SiteShellProps = {
   children: ReactNode;
 };
 
+const NAV_LINKS = [
+  { href: "/blog", label: "/blog" },
+  { href: "/resume", label: "/resume" },
+];
+
+function isActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(href + "/");
+}
+
 export function SiteShell({ children }: SiteShellProps) {
+  const pathname = usePathname();
+
   return (
     <div className="site-frame">
       <header className="site-header">
-        <nav className="site-nav">
-          <div className="site-nav-left">
-            <Link href="/" className="site-logo">atqamz</Link>
-            <Link href="/blog" className="site-link">/blog</Link>
-            <Link href="/resume" className="site-link">/resume</Link>
-          </div>
-          <div className="site-divider" aria-hidden="true" />
-          <div className="site-actions">
-            <PaletteSelect />
-            <ThemeToggle />
-          </div>
+        <Link href="/" className="site-logo" aria-label="Home">
+          atqamz
+        </Link>
+        <nav className="site-nav" aria-label="Main navigation">
+          {NAV_LINKS.map((link) => {
+            const active = isActive(pathname, link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`site-link${active ? " site-link--active" : ""}`}
+                aria-current={active ? "page" : undefined}
+              >
+                {active && <span className="site-link-indicator" aria-hidden="true">&gt;</span>}
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
+        <div className="site-header-controls">
+          <PaletteSelect />
+          <ThemeToggle />
+        </div>
       </header>
-      <main className="site-main">
+
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
+
+      <main id="main-content" className="site-main">
         {children}
       </main>
-      <footer className="site-footer">
-        <div className="site-footer-links">
-          <a href="https://github.com/atqamz" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/atqamunzir/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+
+      <footer className="site-statusbar">
+        <div className="site-statusbar-left">
+          <a href="https://github.com/atqamz" target="_blank" rel="noopener noreferrer">github</a>
+          <a href="https://www.linkedin.com/in/atqamunzir/" target="_blank" rel="noopener noreferrer">linkedin</a>
         </div>
-        <p className="terminal-muted">© {new Date().getFullYear()} Atqa Munzir.</p>
+        <span className="site-statusbar-right">
+          &copy; {new Date().getFullYear()} atqa munzir
+        </span>
       </footer>
     </div>
   );
