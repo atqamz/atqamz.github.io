@@ -2,7 +2,7 @@ import type { ResumeData } from "../types";
 
 const base: ResumeData = {
   name: "ATQA MUNZIR",
-  role: "Game Programmer",
+  role: "Coder",
   contact: [
     { label: "atqamz@gmail.com", href: "mailto:atqamz@gmail.com" },
     { label: "linkedin.com/in/atqamunzir", href: "https://linkedin.com/in/atqamunzir" },
