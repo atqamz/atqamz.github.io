@@ -19,6 +19,12 @@ const base: ResumeData = {
           role: "Junior Game Programmer - Full-time (Remote)",
           location: "Singapore",
           date: "Jul 2025 - Present",
+          items: [
+            "Shipped a racing game across 8 platforms (mobile, web) in Unity 6, integrating monetization, analytics, and platform SDKs with 10 build profiles.",
+            "Built a real-time authoritative multiplayer server in Go (Nakama) supporting 6-player races with distributed matchmaking and server-side anti-cheat.",
+            "Owned internal infrastructure across 2 data centers, managing 13 domains, VPN, container orchestration, monitoring, and encrypted secret management.",
+            "Built internal tools for employee leave/salary management and maintained the company documentation site.",
+          ],
         },
         {
           org: "Timedoor Academy",
