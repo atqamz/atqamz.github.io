@@ -9,7 +9,7 @@ const base: ResumeData = {
     { label: "github.com/atqamz", href: "https://github.com/atqamz" },
   ],
   summary:
-    "A skilled Coder proficient in C#, Unity, C++, Unreal Engine. With hands-on experience in both game programming and full-stack backend development. Demonstrated ability to lead teams and deliver critical in-game systems, such as cross-platform payment utilities and online services. Experienced in building and maintaining CI/CD pipelines to streamline development. Eager to contribute technical expertise and a passion for gaming to a forward-thinking team.",
+    "Game programmer with experience shipping titles across mobile and web platforms using Unity and Unreal Engine. Built real-time multiplayer backends in Go and managed production infrastructure across multiple data centers. Comfortable across the full stack, from in-game systems and platform SDK integrations to CI/CD pipelines and DevOps. Proven ability to lead small teams and deliver end-to-end.",
   sections: [
     {
       title: "Experience",
