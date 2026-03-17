@@ -9,7 +9,7 @@ const base: ResumeData = {
     { label: "github.com/atqamz", href: "https://github.com/atqamz" },
   ],
   summary:
-    "Game programmer with experience shipping titles across mobile and web platforms using Unity and Unreal Engine. Built real-time multiplayer backends in Go and managed production infrastructure across multiple data centers. Comfortable across the full stack, from in-game systems and platform SDK integrations to CI/CD pipelines and DevOps. Proven ability to lead small teams and deliver end-to-end.",
+    "Coder with experience shipping titles across mobile and web platforms using Unity and Unreal Engine. Built real-time multiplayer backends in Go and managed production infrastructure across multiple data centers. Comfortable across the full stack, from in-game systems and platform SDK integrations to CI/CD pipelines and DevOps. Proven ability to lead small teams and deliver end-to-end.",
   sections: [
     {
       title: "Experience",
