@@ -540,7 +540,7 @@
   .site-main {
     flex: 1;
     width: 100%;
-    padding: var(--space-5) 0;
+    padding: var(--space-2) 0 var(--space-5);
   }
 
   /* --------------------------------------------------------

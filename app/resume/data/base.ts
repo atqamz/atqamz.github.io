@@ -2,14 +2,14 @@ import type { ResumeData } from "../types";
 
 const base: ResumeData = {
   name: "ATQA MUNZIR",
-  role: "Game Programmer",
+  role: "Coder",
   contact: [
     { label: "atqamz@gmail.com", href: "mailto:atqamz@gmail.com" },
     { label: "linkedin.com/in/atqamunzir", href: "https://linkedin.com/in/atqamunzir" },
     { label: "github.com/atqamz", href: "https://github.com/atqamz" },
   ],
   summary:
-    "A skilled Coder proficient in C#, Unity, C++, Unreal Engine. With hands-on experience in both game programming and full-stack backend development. Demonstrated ability to lead teams and deliver critical in-game systems, such as cross-platform payment utilities and online services. Experienced in building and maintaining CI/CD pipelines to streamline development. Eager to contribute technical expertise and a passion for gaming to a forward-thinking team.",
+    "Coder with experience shipping titles across mobile and web platforms using Unity and Unreal Engine. Built real-time multiplayer backends in Go and managed production infrastructure across multiple data centers. Comfortable across the full stack, from in-game systems and platform SDK integrations to CI/CD pipelines and DevOps. Proven ability to lead small teams and deliver end-to-end.",
   sections: [
     {
       title: "Experience",
@@ -19,6 +19,12 @@ const base: ResumeData = {
           role: "Junior Game Programmer - Full-time (Remote)",
           location: "Singapore",
           date: "Jul 2025 - Present",
+          items: [
+            "Shipped a racing game across 8 platforms (mobile, web) in Unity 6, integrating monetization, analytics, and platform SDKs with 10 build profiles.",
+            "Built a real-time authoritative multiplayer server in Go (Nakama) supporting 6-player races with distributed matchmaking and server-side anti-cheat.",
+            "Owned internal infrastructure across 2 data centers, managing 13 domains, VPN, container orchestration, monitoring, and encrypted secret management.",
+            "Built internal tools for employee leave/salary management and maintained the company documentation site.",
+          ],
         },
         {
           org: "Timedoor Academy",
