@@ -15,20 +15,6 @@ const base: ResumeData = {
       title: "Experience",
       entries: [
         {
-          org: "BlankOn Linux",
-          location: "Indonesia",
-          roles: [
-            {
-              title: "Open Source Contributor (Remote)",
-              date: "Dec 2025 - Present",
-              items: [
-                "Contribute to the build and packaging toolchain of an Indonesian Linux distribution, including the distributed build farm, APT repository tooling, and live ISO builder.",
-                "Help modernize project infrastructure toward GitOps on a bare-metal Proxmox cluster, with containerization and Infrastructure as Code.",
-              ],
-            },
-          ],
-        },
-        {
           org: "YES2GAMES",
           location: "Singapore",
           roles: [
@@ -50,6 +36,20 @@ const base: ResumeData = {
                 "Integrated monetization, analytics, and platform SDKs across build profiles for web and mobile in Unity 6.",
                 "Set up CI/CD pipelines, automated tests, and DevSecOps practices, replacing manual builds and deployments.",
                 "Modernized client UIs to match competing titles and refactored unstructured online code into maintainable, scalable modules.",
+              ],
+            },
+          ],
+        },
+        {
+          org: "BlankOn Linux",
+          location: "Indonesia",
+          roles: [
+            {
+              title: "Open Source Contributor (Remote)",
+              date: "Dec 2025 - Present",
+              items: [
+                "Contribute to the build and packaging toolchain of an Indonesian Linux distribution, including the distributed build farm, APT repository tooling, and live ISO builder.",
+                "Help modernize project infrastructure toward GitOps on a bare-metal Proxmox cluster, with containerization and Infrastructure as Code.",
               ],
             },
           ],
