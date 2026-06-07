@@ -17,16 +17,40 @@
 }
 
 .name {
-  font-size: 2rem;
+  font-size: 2.1rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 700;
   margin: 0;
   color: var(--accent, #1f2937);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
 :global(.dark) .name {
   color: var(--accent, #e2e8f0);
+}
+
+/* blinking block cursor -- pure decoration, screen only, never in ATS text */
+.name::after {
+  content: "";
+  display: inline-block;
+  width: 0.5ch;
+  height: 0.92em;
+  margin-left: 0.35ch;
+  vertical-align: -0.06em;
+  background: var(--accent, #1f2937);
+  animation: resumeCursor 1.2s steps(2, start) infinite;
+}
+
+@keyframes resumeCursor {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .role {
@@ -59,7 +83,8 @@
 }
 
 .contactSep {
-  color: var(--muted, #9ca3af);
+  color: var(--accent, #245a9e);
+  opacity: 0.55;
 }
 
 .section {
@@ -73,29 +98,33 @@
   letter-spacing: 0.2em;
   margin: 0 0 var(--space-3, 0.75rem);
   color: var(--accent, #1f2937);
-  border-bottom: 2px dotted var(--accent, #1f2937);
+  border-bottom: 1px dotted var(--border-strong, color-mix(in srgb, var(--accent) 45%, transparent));
   padding-bottom: var(--space-1, 0.25rem);
 }
 
 :global(.dark) .sectionTitle {
   color: var(--accent, #cbd5f5);
-  border-bottom-color: var(--accent, #cbd5f5);
 }
 
 .summary {
   margin: 0;
-  text-align: justify;
+  max-width: 72ch;
+  color: var(--muted, #374151);
+}
+
+:global(.dark) .summary {
+  color: var(--foreground, #e2e8f0);
 }
 
 /* ============================================================
    ENTRY -- company header + role timeline rail
    ============================================================ */
 .entry {
-  margin-top: var(--space-4, 1rem);
+  margin-top: var(--space-5, 1.5rem);
 }
 
 .entry:first-of-type {
-  margin-top: 0;
+  margin-top: var(--space-1, 0.25rem);
 }
 
 .entryHeader {
@@ -103,12 +132,21 @@
   grid-template-columns: minmax(0, 1fr) auto;
   gap: var(--space-4, 1rem);
   align-items: baseline;
+  margin-bottom: var(--space-1, 0.25rem);
 }
 
 .entryOrg {
   font-weight: 700;
   color: var(--accent, #1f2937);
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
+}
+
+/* terminal prompt marker -- pseudo only, stays out of copy/ATS text */
+.entryOrg::before {
+  content: ">";
+  margin-right: 0.6ch;
+  color: var(--muted, #9ca3af);
+  font-weight: 400;
 }
 
 :global(.dark) .entryOrg {
@@ -117,7 +155,7 @@
 
 .entryLocation {
   color: var(--muted, #374151);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   white-space: nowrap;
 }
 
@@ -125,11 +163,19 @@
   color: var(--muted, #94a3b8);
 }
 
-/* timeline rail container */
+/* ------------------------------------------------------------
+   timeline rail -- one continuous line spanning a company's
+   roles, a node per role. drawn purely with pseudo-elements
+   so copy-paste / ATS parsing stay clean.
+   geometry: node center sits at the role-title line center
+   (font 0.95rem * line-height 1.45 => ~0.69rem from block top).
+   ------------------------------------------------------------ */
 .roles {
+  --rail-x: 0.28rem;
+  --node: 0.5rem;
+  --node-center-y: 0.69rem;
   position: relative;
-  padding-left: 1.4rem;
-  margin-top: var(--space-2, 0.5rem);
+  padding-left: 1.5rem;
 }
 
 .roleBlock {
@@ -137,38 +183,39 @@
 }
 
 .roleBlock:not(:last-child) {
-  padding-bottom: var(--space-3, 0.75rem);
+  padding-bottom: var(--space-4, 1rem);
 }
 
-/* node dot in the gutter, aligned under the company name */
+/* node dot, vertically centered on the role title */
 .roleBlock::before {
   content: "";
   position: absolute;
   box-sizing: border-box;
-  left: -1.25rem;
-  top: 0.34rem;
-  width: 0.5rem;
-  height: 0.5rem;
+  left: calc(var(--rail-x) - var(--node) / 2);
+  top: calc(var(--node-center-y) - var(--node) / 2);
+  width: var(--node);
+  height: var(--node);
   border-radius: 50%;
-  border: 1.5px solid var(--accent, #1f2937);
+  border: 2px solid var(--accent, #1f2937);
   background: var(--background, #ffffff);
   z-index: 1;
 }
 
-/* most recent role rendered solid; earlier roles hollow */
+/* most recent role solid + glow; earlier roles hollow */
 .roleBlock[data-current]::before {
   background: var(--accent, #1f2937);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);
 }
 
-/* connector between stacked roles (only when more than one) */
-.roleBlock:not(:last-child)::after {
+/* connector from this node down to the next node */
+.roles[data-multi] .roleBlock:not(:last-child)::after {
   content: "";
   position: absolute;
-  left: calc(-1rem - 0.5px);
-  top: 0.59rem;
+  left: calc(var(--rail-x) - 0.5px);
+  top: var(--node-center-y);
   width: 1px;
   height: 100%;
-  background: var(--border-strong, #9ca3af);
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
 }
 
 .roleHeader {
@@ -183,10 +230,11 @@
 }
 
 .roleDate {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 500;
   color: var(--muted, #374151);
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 :global(.dark) .roleDate {
@@ -195,15 +243,18 @@
 
 .page .list {
   list-style: none;
-  margin: var(--space-2, 0.35rem) 0 0;
+  margin: var(--space-1, 0.3rem) 0 0;
   padding: 0;
 }
 
 .page .list li {
   position: relative;
-  padding-left: 1.4ch;
+  padding-left: 1.6ch;
   margin-bottom: var(--space-1, 0.25rem);
-  text-align: justify;
+}
+
+.page .list li:last-child {
+  margin-bottom: 0;
 }
 
 .page .list li::before {
@@ -224,11 +275,48 @@
   margin: 0;
 }
 
+/* globals' layout-scoped p/heading margins out-specify single-class
+   resets, so resume spacing is set with element-scoped selectors
+   that win on specificity. */
+.header .name {
+  margin: 0;
+}
+
+.header .role {
+  margin: var(--space-1, 0.25rem) 0 0;
+}
+
+.header .contact {
+  margin: var(--space-2, 0.5rem) 0 0;
+}
+
+.section .sectionTitle {
+  margin: 0 0 var(--space-3, 0.75rem);
+}
+
+.section .summary {
+  margin: 0;
+}
+
+.entryHeader .entryOrg,
+.entryHeader .entryLocation {
+  margin: 0;
+}
+
+.roleHeader .roleTitle,
+.roleHeader .roleDate {
+  margin: 0;
+}
+
 @media (max-width: 767px) {
   .entryHeader,
   .roleHeader {
     grid-template-columns: 1fr;
     gap: 0;
+  }
+
+  .roleDate {
+    margin-top: 0.1rem;
   }
 }
 
@@ -280,11 +368,19 @@
 
   .name {
     color: #111827 !important;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    letter-spacing: 0.04em;
+    text-shadow: none !important;
+  }
+
+  /* drop the blinking cursor for a clean ATS document */
+  .name::after {
+    display: none !important;
   }
 
   .role {
     margin-top: 0;
+    color: #1f2937 !important;
   }
 
   .contact,
@@ -298,6 +394,7 @@
 
   .contactSep {
     color: #6b7280 !important;
+    opacity: 1 !important;
   }
 
   .section {
@@ -316,24 +413,48 @@
     margin-bottom: var(--space-1, 0.25rem);
   }
 
+  /* let multi-role companies flow across a page break, but keep each
+     individual role with its bullets intact -- packs pages tighter,
+     no orphaned company header, no split bullet list */
   .entry {
     margin-top: var(--space-2, 0.5rem);
+  }
+
+  .roleBlock {
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+
+  .page .list li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .entryHeader {
+    break-after: avoid;
+    page-break-after: avoid;
   }
 
   .entryOrg {
     color: #111827 !important;
   }
 
+  /* drop the terminal prompt marker for a clean ATS document */
+  .entryOrg::before {
+    display: none !important;
+  }
+
   .entryLocation {
     color: #374151 !important;
   }
 
+  .summary {
+    color: #1f2937 !important;
+  }
+
   /* strip the rail; keep a quiet indent so grouped roles still read together */
   .roles {
-    margin-top: 0;
-    padding-left: 0.75rem;
+    padding-left: 0.85rem;
   }
 
   .roleBlock::before,
