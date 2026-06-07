@@ -30,22 +30,33 @@ export default function ResumeRenderer({ data }: { data: ResumeData }) {
           {section.entries.map((entry, i) => (
             <article key={`${entry.org}-${i}`} className={styles.entry}>
               <div className={styles.entryHeader}>
-                <div>
-                  <p className={styles.entryOrg}>{entry.org}</p>
-                  <p className={styles.entryRole}>{entry.role}</p>
-                </div>
-                <div className={styles.entryMeta}>
-                  <p className={styles.entryLocation}>{entry.location}</p>
-                  <p className={styles.entryDate}>{entry.date}</p>
-                </div>
+                <p className={styles.entryOrg}>{entry.org}</p>
+                <p className={styles.entryLocation}>{entry.location}</p>
               </div>
-              {entry.items && entry.items.length > 0 && (
-                <ul className={styles.list}>
-                  {entry.items.map((item, j) => (
-                    <li key={j}>{item}</li>
-                  ))}
-                </ul>
-              )}
+              <div
+                className={styles.roles}
+                data-multi={entry.roles.length > 1 ? "" : undefined}
+              >
+                {entry.roles.map((role, j) => (
+                  <div
+                    key={`${role.title}-${j}`}
+                    className={styles.roleBlock}
+                    data-current={j === 0 ? "" : undefined}
+                  >
+                    <div className={styles.roleHeader}>
+                      <p className={styles.roleTitle}>{role.title}</p>
+                      <p className={styles.roleDate}>{role.date}</p>
+                    </div>
+                    {role.items && role.items.length > 0 && (
+                      <ul className={styles.list}>
+                        {role.items.map((item, k) => (
+                          <li key={k}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
+              </div>
             </article>
           ))}
         </section>
