@@ -5,6 +5,7 @@ export default function ResumeRenderer({ data }: { data: ResumeData }) {
   return (
     <section className={styles.page}>
       <section className={styles.header}>
+        <span className={styles.prompt} aria-hidden="true" />
         <h1 className={styles.name}>{data.name}</h1>
         <p className={styles.role}>{data.role}</p>
         <p className={styles.contact}>
