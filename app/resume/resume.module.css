@@ -16,6 +16,30 @@
   margin-bottom: var(--space-5, 1.5rem);
 }
 
+/* shell-session flourish: `> whoami` drawn entirely as pseudo content so it
+   is never copied or extracted. screen only -- hidden in print. */
+.prompt {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted, #6b7280);
+  margin: 0 0 var(--space-1, 0.25rem);
+  letter-spacing: 0.02em;
+}
+
+.prompt::before {
+  content: ">";
+  margin-right: 0.6ch;
+  color: var(--accent, #245a9e);
+}
+
+.prompt::after {
+  content: "whoami";
+}
+
+:global(.dark) .prompt::after {
+  color: var(--muted, #94a3b8);
+}
+
 .name {
   font-size: 2.1rem;
   letter-spacing: 0.08em;
@@ -98,8 +122,15 @@
   letter-spacing: 0.2em;
   margin: 0 0 var(--space-3, 0.75rem);
   color: var(--accent, #1f2937);
-  border-bottom: 1px dotted var(--border-strong, color-mix(in srgb, var(--accent) 45%, transparent));
+  border-bottom: 1px solid var(--border-strong, color-mix(in srgb, var(--accent) 45%, transparent));
   padding-bottom: var(--space-1, 0.25rem);
+}
+
+/* command-line prompt prefix -- decoration only, ATS reads "Experience" etc. */
+.sectionTitle::before {
+  content: "$ ";
+  color: var(--accent, #245a9e);
+  font-weight: 400;
 }
 
 :global(.dark) .sectionTitle {
@@ -164,58 +195,94 @@
 }
 
 /* ------------------------------------------------------------
-   timeline rail -- one continuous line spanning a company's
-   roles, a node per role. drawn purely with pseudo-elements
-   so copy-paste / ATS parsing stay clean.
-   geometry: node center sits at the role-title line center
-   (font 0.95rem * line-height 1.45 => ~0.69rem from block top).
+   IDE file-tree for multi-role companies. markers are drawn 1px
+   lines (pseudo-elements) positioned by GRID-CELL alignment --
+   never by guessed rem offsets -- so a marker physically cannot
+   enter the text column, and the tick centers on the title line
+   regardless of font metrics or wrapping.
    ------------------------------------------------------------ */
 .roles {
-  --rail-x: 0.28rem;
-  --node: 0.5rem;
-  --node-center-y: 0.69rem;
-  position: relative;
-  padding-left: 1.5rem;
+  --tree-gutter: 1.5rem; /* reserved marker column; constant width */
+  --tick-x: 0.45rem; /* x of the vertical line within the gutter */
+  --tick-gap: 0.32rem; /* gap between tick end and the title */
+  --tree-line: color-mix(in srgb, var(--accent) 55%, transparent);
 }
 
+/* every role -- single- or multi-role -- reserves the gutter so all
+   titles share one clean left edge. content always lives in column 2. */
 .roleBlock {
   position: relative;
+  display: grid;
+  grid-template-columns: var(--tree-gutter) minmax(0, 1fr);
+}
+
+.roleBlock > * {
+  grid-column: 2;
 }
 
 .roleBlock:not(:last-child) {
   padding-bottom: var(--space-4, 1rem);
 }
 
-/* node dot, vertically centered on the role title */
-.roleBlock::before {
+/* horizontal tick: a 1px line from the vertical connector to the
+   content, grid-centered on the title row -- no rem offset, robust
+   to title wrapping. */
+.roles[data-multi] .roleBlock::after {
   content: "";
-  position: absolute;
-  box-sizing: border-box;
-  left: calc(var(--rail-x) - var(--node) / 2);
-  top: calc(var(--node-center-y) - var(--node) / 2);
-  width: var(--node);
-  height: var(--node);
-  border-radius: 50%;
-  border: 2px solid var(--accent, #1f2937);
-  background: var(--background, #ffffff);
-  z-index: 1;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  justify-self: start;
+  margin-left: var(--tick-x);
+  width: calc(var(--tree-gutter) - var(--tick-x) - var(--tick-gap));
+  height: 1px;
+  background: var(--tree-line);
 }
 
-/* most recent role solid + glow; earlier roles hollow */
-.roleBlock[data-current]::before {
-  background: var(--accent, #1f2937);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);
-}
-
-/* connector from this node down to the next node */
-.roles[data-multi] .roleBlock:not(:last-child)::after {
+/* vertical connector for non-last roles spans the full block box
+   (incl. padding) so it joins seamlessly into the next role's line. */
+.roles[data-multi] .roleBlock:not(:last-child)::before {
   content: "";
   position: absolute;
-  left: calc(var(--rail-x) - 0.5px);
-  top: var(--node-center-y);
+  left: var(--tick-x);
+  top: 0;
+  bottom: 0;
   width: 1px;
-  height: 100%;
-  background: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: var(--tree-line);
+}
+
+/* last role: line runs from block top to the tick center only (└),
+   not through the bullets. the gradient's 50% stop equals the
+   single-line title's center, so it meets the grid-centered tick
+   without any guessed offset. */
+.roles[data-multi] .roleBlock:last-child::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1;
+  align-self: stretch;
+  justify-self: start;
+  margin-left: var(--tick-x);
+  width: 1px;
+  background: linear-gradient(to bottom, var(--tree-line) 0 50%, transparent 50%);
+}
+
+/* current role title carries the accent; past roles stay foreground.
+   no filled/hollow dot -- that dot was the original overlap bug. */
+.roleBlock[data-current] .roleTitle {
+  color: var(--accent, #245a9e);
+}
+
+:global(.dark) .roleBlock[data-current] .roleTitle {
+  color: var(--accent, #6aa8ff);
+}
+
+/* current role's tick reads brighter than the connector line. */
+.roles[data-multi] .roleBlock[data-current]::after {
+  background: var(--accent, #245a9e);
+}
+
+:global(.dark) .roles[data-multi] .roleBlock[data-current]::after {
+  background: var(--accent, #6aa8ff);
 }
 
 .roleHeader {
@@ -309,14 +376,32 @@
 }
 
 @media (max-width: 767px) {
-  .entryHeader,
-  .roleHeader {
+  .entryHeader {
     grid-template-columns: 1fr;
     gap: 0;
   }
 
+  /* flatten roleHeader so its title and date become rows of .roleBlock.
+     the tick lives in grid-row 1, which now maps to the TITLE alone --
+     so it keeps centering on the title, not on the stacked title+date. */
+  .roleHeader {
+    display: contents;
+  }
+
+  .roleTitle {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
   .roleDate {
+    grid-column: 2;
+    grid-row: 2;
     margin-top: 0.1rem;
+  }
+
+  /* tree gutter narrows but stays; lines still align via the grid. */
+  .roles {
+    --tree-gutter: 1.25rem;
   }
 }
 
@@ -364,6 +449,12 @@
 
   .header {
     margin-bottom: var(--space-2, 0.5rem);
+  }
+
+  /* drop all terminal flourishes for a clean ATS document */
+  .prompt,
+  .sectionTitle::before {
+    display: none !important;
   }
 
   .name {
@@ -452,13 +543,14 @@
     color: #1f2937 !important;
   }
 
-  /* strip the rail; keep a quiet indent so grouped roles still read together */
+  /* strip all tree lines; collapse the gutter to a quiet indent so
+     grouped roles still read together. */
   .roles {
-    padding-left: 0.85rem;
+    --tree-gutter: 0.7rem;
   }
 
   .roleBlock::before,
-  .roleBlock:not(:last-child)::after {
+  .roleBlock::after {
     display: none !important;
   }
 
