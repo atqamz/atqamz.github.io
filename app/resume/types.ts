@@ -3,12 +3,16 @@ export interface ContactItem {
   href: string;
 }
 
-export interface ResumeEntry {
-  org: string;
-  role: string;
-  location: string;
+export interface ResumeRole {
+  title: string;
   date: string;
   items?: string[];
+}
+
+export interface ResumeEntry {
+  org: string;
+  location: string;
+  roles: ResumeRole[];
 }
 
 export interface ResumeSection {
