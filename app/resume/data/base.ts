@@ -9,21 +9,43 @@ const base: ResumeData = {
     { label: "github.com/atqamz", href: "https://github.com/atqamz" },
   ],
   summary:
-    "Coder with experience shipping titles across mobile and web platforms using Unity and Unreal Engine. Built real-time multiplayer backends in Go and managed production infrastructure across multiple data centers. Comfortable across the full stack, from in-game systems and platform SDK integrations to CI/CD pipelines and DevOps. Proven ability to lead small teams and deliver end-to-end.",
+    "Coder with experience shipping titles across mobile and web platforms using Unity and Unreal Engine. Specializes in online infrastructure and platform integrations: real-time multiplayer backends in Go, GitOps CI/CD, and Infrastructure as Code across multiple data centers. Comfortable across the full stack, from in-game systems and platform SDKs to DevSecOps and production observability. Proven ability to lead small teams and deliver end-to-end.",
   sections: [
     {
       title: "Experience",
       entries: [
         {
-          org: "YES2GAMES",
-          role: "Junior Game Programmer - Full-time (Remote)",
-          location: "Singapore",
-          date: "Jul 2025 - Present",
+          org: "BlankOn Linux",
+          role: "Open Source Contributor (Remote)",
+          location: "Indonesia",
+          date: "Dec 2025 - Present",
           items: [
-            "Shipped a racing game across 8 platforms (mobile, web) in Unity 6, integrating monetization, analytics, and platform SDKs with 10 build profiles.",
-            "Built a real-time authoritative multiplayer server in Go (Nakama) supporting 6-player races with distributed matchmaking and server-side anti-cheat.",
-            "Owned internal infrastructure across 2 data centers, managing 13 domains, VPN, container orchestration, monitoring, and encrypted secret management.",
-            "Built internal tools for employee leave/salary management and maintained the company documentation site.",
+            "Contribute to the build and packaging toolchain of an Indonesian Linux distribution, including the distributed build farm, APT repository tooling, and live ISO builder.",
+            "Help modernize project infrastructure toward GitOps on a bare-metal Proxmox cluster, with containerization and Infrastructure as Code.",
+          ],
+        },
+        {
+          org: "YES2GAMES",
+          role: "Senior Programmer - Full-time (Remote)",
+          location: "Singapore",
+          date: "May 2026 - Present",
+          items: [
+            "Lead online and infrastructure engineering for a cross-platform racing title, scaling its backend from a single barebone server to fully reproducible Infrastructure as Code across two data centers.",
+            "Migrated all deployments from manual SSH and ad-hoc scripts to fully automated GitOps CI/CD with GitHub Actions, rootless Podman/Quadlet containers, SOPS-encrypted secrets, and health-checked auto-rollback.",
+            "Stood up production observability with Grafana Cloud (metrics, logs, blackbox probes) and alerting, plus OpenTofu-provisioned VMs and Cloudflare DNS.",
+            "Re-architected online modules into scalable services (Go multiplayer server, backend API, IAP validation, management dashboard) and brought online support to every shipping platform.",
+          ],
+        },
+        {
+          org: "YES2GAMES",
+          role: "Junior Programmer - Full-time (Remote)",
+          location: "Singapore",
+          date: "Jul 2025 - Apr 2026",
+          items: [
+            "Ported a cross-platform racing title to web/H5 platforms (Poki, Yandex Games, Azerion, Playgama, YouTube Playables) and mobile (Google Play; App Store in progress), meeting each platform's certification and SDK requirements.",
+            "Integrated monetization, analytics, and platform SDKs across build profiles for web and mobile in Unity 6.",
+            "Set up CI/CD pipelines, automated tests, and DevSecOps practices, replacing manual builds and deployments.",
+            "Modernized client UIs to match competing titles and refactored unstructured online code into maintainable, scalable modules.",
           ],
         },
         {
@@ -42,6 +64,10 @@ const base: ResumeData = {
           role: "Cheerleader - Part-time (Remote)",
           location: "Surabaya, Indonesia",
           date: "Jan 2025 - Present",
+          items: [
+            "Mentor and advise student engineering teams within a university game-technology research group.",
+            "Provide technical direction and architecture/code review across their game and infrastructure projects.",
+          ],
         },
         {
           org: "Sepay Studio",
