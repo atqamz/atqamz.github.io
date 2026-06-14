@@ -13,5 +13,10 @@
     "filename": "deck210226",
     "url": "https://www.canva.com/design/DAHBTx6T2WQ/W53iwgEFQv_YaYrf-djAbA/edit?utm_content=DAHBTx6T2WQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
     "type": "redirect"
+  },
+  {
+    "filename": "termux",
+    "url": "https://raw.githubusercontent.com/atqamz/universe/master/scripts/termux-bootstrap.sh",
+    "type": "shell"
   }
 ]
