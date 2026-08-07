@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Install Elm
+        run: npm install --global elm@0.19.1-6
+      - name: Build homepage
+        run: make -C apps/web build
+      - uses: actions/upload-artifact@v6
+        with:
+          name: web
+          path: apps/web/dist
+
+  resume:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Compile resume
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: resume.tex
+          working_directory: apps/resume
+          texlive_version: 2026
+      - name: Stage resume site
+        run: make -C apps/resume stage
+      - uses: actions/upload-artifact@v6
+        with:
+          name: resume
+          path: apps/resume/dist
+
+  infrastructure:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra/cloudflare
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: infra/cloudflare/go.mod
+          cache-dependency-path: infra/cloudflare/go.mod
+      - name: Format check
+        run: test -z "$(gofmt -l .)"
+      - name: Download dependencies
+        run: go mod download
+      - name: Compile
+        run: go test ./...

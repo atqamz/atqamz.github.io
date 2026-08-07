@@ -1,16 +1,18 @@
 # Project agent memory
 
-This file is the project's committed home for project-intrinsic agent knowledge: build, test, release, architecture, and sharp-edge notes that should travel with the code.
+This repository is a small public monorepo. Keep it boring and avoid introducing framework or workspace machinery unless the apps actually need shared orchestration.
 
-- Add durable project-specific notes here as they are discovered through real work.
+## Architecture
 
-## Sharp edges
+- `apps/web`: Elm 0.19.1 static homepage. No blog/router/CMS. `data/links.json` remains the single source for shortlinks.
+- `apps/resume`: ATS-friendly LaTeX resume. `make -C apps/resume build` must produce `dist/resume.pdf` plus the static viewer page.
+- `infra/cloudflare`: Pulumi Go owns Cloudflare Pages projects, custom domains, and DNS. Application bytes are uploaded separately.
+- `legacy/next`: archived pre-migration Next.js implementation; no active build may depend on it.
 
-- Resume `@media print` ATS packing and dark-mode override gotcha: see `app/resume/resume.module.css` (print block starts ~line 411, `.roleBlock`/`.page .list li` comment ~line 507). Global theme selectors in `app/globals.css` (`html.dark[data-layout="terminal"][data-palette="..."]`) outrank plain module-scoped selectors, so resume overrides need `:global(.dark)` combinators or `!important` to win.
+## Deployment
+
+Cloudflare Pages uses Direct Upload. Infrastructure and deploy workflows are manual during migration so merging code cannot cut over DNS unexpectedly.
 
 ## Maintaining this file
 
-Keep this file for knowledge useful to almost every future agent session in this project.
-Do not repeat what the codebase already shows; point to the authoritative file or command instead.
-Prefer rewriting or pruning existing entries over appending new ones.
-When updating this file, preserve this bar for all agents and keep entries concise.
+Keep only durable project-specific knowledge here. Prefer updating an existing note over appending historical detail.

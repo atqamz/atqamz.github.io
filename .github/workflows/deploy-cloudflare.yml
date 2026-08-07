@@ -1,0 +1,47 @@
+name: Deploy Cloudflare Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install Elm
+        run: npm install --global elm@0.19.1-6
+
+      - name: Build homepage
+        run: make -C apps/web build
+
+      - name: Compile resume
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: resume.tex
+          working_directory: apps/resume
+          texlive_version: 2026
+
+      - name: Stage resume site
+        run: make -C apps/resume stage
+
+      - name: Deploy atqamz.com
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy apps/web/dist --project-name=atqamz-web
+
+      - name: Deploy resume.atqamz.com
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy apps/resume/dist --project-name=atqamz-resume

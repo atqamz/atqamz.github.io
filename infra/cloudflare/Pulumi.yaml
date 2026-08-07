@@ -1,0 +1,3 @@
+name: atqamz-cloudflare
+runtime: go
+description: Cloudflare Pages and DNS for atqamz.com

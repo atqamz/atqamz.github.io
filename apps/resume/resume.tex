@@ -1,0 +1,179 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper,margin=0.56in]{geometry}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\input{glyphtounicode}
+\pdfgentounicode=1
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{leftmargin=1.15em,itemsep=0.7pt,topsep=1.5pt,parsep=0pt,partopsep=0pt}
+\titleformat{\section}{\large\bfseries}{}{0pt}{}[\vspace{-0.35em}\titlerule]
+\titlespacing*{\section}{0pt}{0.65em}{0.35em}
+\definecolor{muted}{HTML}{555555}
+
+\newcommand{\contactsep}{\hspace{0.55em}\textcolor{muted}{|}\hspace{0.55em}}
+\newcommand{\company}[2]{%
+  \vspace{0.28em}%
+  \begin{tabularx}{\textwidth}{@{}Xr@{}}
+    \textbf{#1} & \textcolor{muted}{#2}
+  \end{tabularx}\vspace{-0.45em}
+}
+\newcommand{\role}[2]{%
+  \begin{tabularx}{\textwidth}{@{}Xr@{}}
+    \textit{#1} & \textit{#2}
+  \end{tabularx}\vspace{-0.55em}
+}
+\newcommand{\entry}[2]{%
+  \begin{tabularx}{\textwidth}{@{}Xr@{}}
+    #1 & \textcolor{muted}{#2}
+  \end{tabularx}
+}
+
+\begin{document}
+\small
+
+\begin{center}
+  {\LARGE\bfseries ATQA MUNZIR}\\[0.2em]
+  {\normalsize Coder}\\[0.3em]
+  \href{mailto:atqamz@gmail.com}{atqamz@gmail.com}
+  \contactsep
+  \href{https://linkedin.com/in/atqamunzir}{linkedin.com/in/atqamunzir}
+  \contactsep
+  \href{https://github.com/atqamz}{github.com/atqamz}
+\end{center}
+\vspace{-0.4em}
+
+\section*{Summary}
+Coder with experience shipping titles across mobile and web platforms using Unity and Unreal Engine. Specializes in online infrastructure and platform integrations: real-time multiplayer backends in Go, GitOps CI/CD, and Infrastructure as Code across multiple data centers. Comfortable across the full stack, from in-game systems and platform SDKs to DevSecOps and production observability. Proven ability to lead small teams and deliver end-to-end.
+
+\section*{Technical Focus}
+\textbf{Game:} Unity, Unreal Engine, C++, C\#\\
+\textbf{Backend:} Go, multiplayer services, platform integrations, IAP\\
+\textbf{Infrastructure:} Linux, GitHub Actions, Podman/Quadlet, SOPS, OpenTofu, Cloudflare, Grafana Cloud
+
+\section*{Experience}
+
+\company{YES2GAMES}{Singapore}
+\role{Senior Programmer --- Full-time (Remote)}{May 2026 -- Present}
+\begin{itemize}
+  \item Lead online and infrastructure engineering for a cross-platform racing title, scaling its backend from a single barebone server to fully reproducible Infrastructure as Code across two data centers.
+  \item Migrated deployments from manual SSH and ad-hoc scripts to automated GitOps CI/CD with GitHub Actions, rootless Podman/Quadlet containers, SOPS-encrypted secrets, and health-checked auto-rollback.
+  \item Stood up production observability with Grafana Cloud (metrics, logs, blackbox probes) and alerting, plus OpenTofu-provisioned VMs and Cloudflare DNS.
+  \item Re-architected online modules into scalable services (Go multiplayer server, backend API, IAP validation, management dashboard) and brought online support to every shipping platform.
+\end{itemize}
+\role{Junior Programmer --- Full-time (Remote)}{Jul 2025 -- Apr 2026}
+\begin{itemize}
+  \item Ported a cross-platform racing title to web/H5 platforms (Poki, Yandex Games, Azerion, Playgama, YouTube Playables) and mobile (Google Play; App Store in progress), meeting platform certification and SDK requirements.
+  \item Integrated monetization, analytics, and platform SDKs across build profiles for web and mobile in Unity 6.
+  \item Set up CI/CD pipelines, automated tests, and DevSecOps practices, replacing manual builds and deployments.
+  \item Modernized client UIs and refactored unstructured online code into maintainable, scalable modules.
+\end{itemize}
+
+\company{BlankOn Linux}{Indonesia}
+\role{Open Source Contributor (Remote)}{Dec 2025 -- Present}
+\begin{itemize}
+  \item Contribute to the build and packaging toolchain of an Indonesian Linux distribution, including the distributed build farm, APT repository tooling, and live ISO builder.
+  \item Help modernize project infrastructure toward GitOps on a bare-metal Proxmox cluster, with containerization and Infrastructure as Code.
+\end{itemize}
+
+\company{Timedoor Academy}{Surabaya, Indonesia}
+\role{Programming Teacher --- Part-time (On-site)}{May 2025 -- Present}
+\begin{itemize}
+  \item Deliver instruction using an adaptive learning methodology to small groups of 1--5 students in 60-to-90-minute sessions.
+  \item Teach Scratch, Scratch Junior, Construct, Roblox Studio, Python, PyGame, web development (HTML/CSS/JS), and MIT App Inventor from basic to advanced levels.
+  \item Provide detailed progress reports to parents after each learning session.
+\end{itemize}
+
+\company{HAGE Games}{Surabaya, Indonesia}
+\role{Cheerleader --- Part-time (Remote)}{Jan 2025 -- Present}
+\begin{itemize}
+  \item Mentor and advise student engineering teams within a university game-technology research group.
+  \item Provide technical direction and architecture/code review across game and infrastructure projects.
+\end{itemize}
+
+\company{Sepay Studio}{Surabaya, Indonesia}
+\role{Game Programmer --- Part-time (Remote)}{Feb 2024 -- Sep 2024}
+\begin{itemize}
+  \item Developed and integrated Unreal Engine features based on pre-defined designs, with a focus on backend operations.
+  \item Worked on cross-platform payment utilities using a one-gate system and third-party service integrations.
+  \item Designed and implemented CI/CD pipelines across Unreal Engine 4, native Android, native iOS, and Unity platforms.
+  \item Created technical documentation for implemented features and maintenance procedures.
+\end{itemize}
+
+\company{Miracle Gates Entertainment}{Bali, Indonesia}
+\role{Junior Game Programmer --- Full-time (On-site)}{Feb 2024 -- May 2024}
+\begin{itemize}
+  \item Designed and integrated backend systems used as online game services, including referral codes, matchmaking, chat systems, and gacha mechanics.
+  \item Maintained and added game content while ensuring seamless integration with existing content.
+  \item Iterated on existing features and optimized backend-related functionality for performance and efficiency.
+  \item Documented completed, ongoing, and planned features to support team coordination.
+\end{itemize}
+
+\company{Gameloft Indonesia}{Yogyakarta, Indonesia}
+\role{C++ Programmer Trainee --- Internship (On-site)}{Dec 2023 -- Jan 2024}
+\begin{itemize}
+  \item Completed C++ tasks ranging from basic to advanced levels using techniques taught during the internship.
+  \item Learned the company's workflow and organizational culture and applied the development team's technical practices to assigned tasks.
+\end{itemize}
+
+\company{Lion Core Studio}{Yogyakarta, Indonesia}
+\role{Junior Game Programmer --- Part-time (Remote)}{Sep 2023 -- Dec 2023}
+\begin{itemize}
+  \item Implemented an existing game design with a senior programmer and collaborated with artists on technical-art integration.
+  \item Built UI for a dialog-system mechanic and designed algorithms for enemy AI and boss characters.
+\end{itemize}
+
+\company{Electronic Engineering Polytechnic Institute of Surabaya (EEPIS)}{Surabaya, Indonesia}
+\role{Lecturer's Teaching Assistant --- Part-time (On-site)}{Jul 2023 -- Dec 2023}
+\begin{itemize}
+  \item Developed a 16-week curriculum aligning weekly topics with assignments, delivered instruction, assessed work, and produced weekly teaching reports.
+\end{itemize}
+
+\company{Game for Education and Cultural Heritage --- EEPIS Research Group}{Surabaya, Indonesia}
+\role{Game Director --- Full-time (On-site)}{Jul 2023 -- Aug 2023}
+\begin{itemize}
+  \item Led development of a game themed around traditional food stalls and managed a team of 14 across programming, art, game design, and social media.
+  \item Kept division documentation current and resolved cross-team development issues.
+\end{itemize}
+\role{Lead Game Programmer --- Full-time (On-site)}{Jan 2023 -- Feb 2023}
+\begin{itemize}
+  \item Led a programming team of three, coordinated with other roles, and established technical design documents and development workflows.
+\end{itemize}
+
+\company{Al-Falah Elementary School}{Surabaya, Indonesia}
+\role{Programming Teacher --- Part-time (On-site)}{Jul 2022 -- Aug 2022}
+\begin{itemize}
+  \item Taught Scratch programming basics to 20 students, reviewed their work, and ran engaging sessions to build interest in programming.
+\end{itemize}
+
+\company{Sepay Studio}{Surabaya, Indonesia}
+\role{Programmer --- Part-time (Remote)}{Aug 2021 -- Jul 2022}
+\begin{itemize}
+  \item Implemented a backend application for game-development needs and converted provided website designs into functional websites.
+\end{itemize}
+
+\company{Webmedia Training Center}{Medan, Indonesia}
+\role{Web Developer Trainee --- Internship (On-site)}{Aug 2019 -- Nov 2019}
+\begin{itemize}
+  \item Learned and built landing pages with HTML, CSS, and JavaScript and produced internship report documents.
+\end{itemize}
+
+\section*{Education}
+\entry{\textbf{Electronic Engineering Polytechnic Institute of Surabaya (EEPIS)} --- Bachelor of Applied Science (BASc), Game Technology}{Aug 2021 -- Aug 2025}
+\entry{\textbf{Telkom Vocational High School, Medan} --- High School Diploma, Software Engineering}{Aug 2018 -- Aug 2021}
+
+\section*{Organization}
+\company{EEPIS Semi-Autonomous Body of Game Technology Students' Association}{Surabaya, Indonesia}
+\role{Head of Research and Technology Division}{Aug 2023 -- Aug 2024}
+\role{Staff of Research and Technology Division}{Aug 2022 -- Aug 2023}
+
+\end{document}
