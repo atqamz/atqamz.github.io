@@ -1,6 +1,6 @@
 config:
-  atqamz-cloudflare:cloudflareAccountId: YOUR_ACCOUNT_ID
-  atqamz-cloudflare:cloudflareZoneId: YOUR_ZONE_ID
-  atqamz-cloudflare:rootDomain: atqamz.com
-  atqamz-cloudflare:webProjectName: atqamz-web
-  atqamz-cloudflare:resumeProjectName: atqamz-resume
+  atqamz_pub:cloudflareAccountId: YOUR_ACCOUNT_ID
+  atqamz_pub:cloudflareZoneId: YOUR_ZONE_ID
+  atqamz_pub:rootDomain: atqamz.com
+  atqamz_pub:webProjectName: atqamz-web
+  atqamz_pub:resumeProjectName: atqamz-resume

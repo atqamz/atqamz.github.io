@@ -18,13 +18,15 @@ The previous Next.js/MDX implementation is archived under `legacy/next/` during 
 
 ## Local development
 
-Requirements: Elm 0.19.1, Python 3, `latexmk`/TeX Live, Go, and Pulumi for infrastructure work.
-
-On NixOS, an ad-hoc environment is enough:
+With Nix, enter the repository development environment with:
 
 ```sh
-nix shell nixpkgs#elmPackages.elm nixpkgs#python3 nixpkgs#texliveFull nixpkgs#go nixpkgs#pulumi
+nix develop
 ```
+
+The shell includes Elm, `elm-format`, Python, TeX Live, Go, Node.js, Pulumi, Git, and Make. The first `nix develop` creates `flake.lock` if it is not present; commit that generated lock file to pin the exact nixpkgs revision for future development.
+
+Without Nix, install Elm 0.19.1, Python 3, `latexmk`/TeX Live, Go, Node.js, Pulumi, Git, and Make yourself.
 
 Build everything:
 
@@ -58,7 +60,7 @@ Bootstrap a stack locally:
 
 ```sh
 cd infra/cloudflare
-pulumi stack init prod
+pulumi stack init atqamz/atqamz_pub/prod
 cp Pulumi.example.yaml Pulumi.prod.yaml
 # fill in the Cloudflare account and zone IDs
 pulumi preview
@@ -81,6 +83,6 @@ Repository configuration required for those workflows:
 - secret `CLOUDFLARE_API_TOKEN`
 - variable `CLOUDFLARE_ACCOUNT_ID`
 - secret `PULUMI_ACCESS_TOKEN`
-- variable `PULUMI_STACK` (for example `atqamz/prod`)
+- variable `PULUMI_STACK` = `atqamz/atqamz_pub/prod`
 
 Apply infrastructure before the first Pages deployment. Once the cutover is stable, the deploy workflow can be changed from `workflow_dispatch` to pushes on `main` with path filters.
