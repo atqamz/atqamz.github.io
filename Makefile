@@ -1,4 +1,4 @@
-.PHONY: web resume build clean infra-format infra-preview
+.PHONY: web resume build clean infra-format
 
 web:
 	$(MAKE) -C apps/web build
@@ -14,6 +14,3 @@ clean:
 
 infra-format:
 	gofmt -w infra/cloudflare/*.go
-
-infra-preview:
-	cd infra/cloudflare && pulumi preview

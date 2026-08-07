@@ -5,13 +5,13 @@ This repository is a small public monorepo. Keep it boring and avoid introducing
 ## Architecture
 
 - `apps/web`: Elm 0.19.1 static homepage. No blog/router/CMS. `data/links.json` remains the single source for shortlinks.
-- `apps/resume`: ATS-friendly LaTeX resume. `make -C apps/resume build` must produce `dist/resume.pdf` plus the static viewer page.
-- `infra/cloudflare`: Pulumi Go owns Cloudflare Pages projects, custom domains, and DNS. Application bytes are uploaded separately.
+- `apps/resume`: ATS-friendly LaTeX resume. `make -C apps/resume build` must produce `dist/resume.pdf` plus the static viewer page. CI/Cloudflare builds use the pinned TinyTeX script under `apps/resume/scripts/`.
+- `infra/cloudflare`: Pulumi Go owns Git-integrated Cloudflare Pages projects, build/source configuration, custom domains, and DNS.
 - `legacy/next`: archived pre-migration Next.js implementation; no active build may depend on it.
 
 ## Deployment
 
-Cloudflare Pages uses Direct Upload. Infrastructure and deploy workflows are manual during migration so merging code cannot cut over DNS unexpectedly.
+Cloudflare Pages Git integration builds and deploys both applications from GitHub. Pulumi Deployments is the only path that applies infrastructure changes. GitHub Actions is validation-only and must not hold production deployment credentials.
 
 ## Maintaining this file
 

@@ -8,6 +8,35 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
 
+const (
+	githubOwner    = "atqamz"
+	githubOwnerID  = "56288343"
+	githubRepoName = "atqamz_pub"
+	githubRepoID   = "1109815267"
+)
+
+func githubSource(pathIncludes ...string) *cloudflare.PagesProjectSourceArgs {
+	includes := make(pulumi.StringArray, 0, len(pathIncludes))
+	for _, path := range pathIncludes {
+		includes = append(includes, pulumi.String(path))
+	}
+
+	return &cloudflare.PagesProjectSourceArgs{
+		Type: pulumi.String("github"),
+		Config: &cloudflare.PagesProjectSourceConfigArgs{
+			Owner:                        pulumi.String(githubOwner),
+			OwnerId:                      pulumi.String(githubOwnerID),
+			RepoName:                     pulumi.String(githubRepoName),
+			RepoId:                       pulumi.String(githubRepoID),
+			PathIncludes:                 includes,
+			PrCommentsEnabled:            pulumi.Bool(true),
+			PreviewDeploymentSetting:     pulumi.String("all"),
+			ProductionBranch:             pulumi.String("main"),
+			ProductionDeploymentsEnabled: pulumi.Bool(true),
+		},
+	}
+}
+
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		cfg := config.New(ctx, "")
@@ -34,6 +63,16 @@ func main() {
 			AccountId:        pulumi.String(accountID),
 			Name:             pulumi.String(webProjectName),
 			ProductionBranch: pulumi.String("main"),
+			BuildConfig: &cloudflare.PagesProjectBuildConfigArgs{
+				BuildCaching:   pulumi.Bool(true),
+				BuildCommand:   pulumi.String("npm install --global elm@0.19.1-6 && make build"),
+				DestinationDir: pulumi.String("dist"),
+				RootDir:        pulumi.String("apps/web"),
+			},
+			Source: githubSource(
+				"apps/web/*",
+				"data/links.json",
+			),
 		})
 		if err != nil {
 			return err
@@ -43,6 +82,13 @@ func main() {
 			AccountId:        pulumi.String(accountID),
 			Name:             pulumi.String(resumeProjectName),
 			ProductionBranch: pulumi.String("main"),
+			BuildConfig: &cloudflare.PagesProjectBuildConfigArgs{
+				BuildCaching:   pulumi.Bool(true),
+				BuildCommand:   pulumi.String("./scripts/build-cloudflare.sh"),
+				DestinationDir: pulumi.String("dist"),
+				RootDir:        pulumi.String("apps/resume"),
+			},
+			Source: githubSource("apps/resume/*"),
 		})
 		if err != nil {
 			return err

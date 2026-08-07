@@ -6,12 +6,12 @@ Personal public monorepo for `atqamz.com` and `resume.atqamz.com`.
 
 ```text
 apps/
-  web/       # Elm homepage + static shortlinks
-  resume/    # LaTeX source + tiny PDF viewer page
+  web/        # Elm homepage + static shortlinks
+  resume/     # LaTeX source + tiny PDF viewer page
 infra/
-  cloudflare/ # Pulumi (Go): Pages projects, domains, and DNS
+  cloudflare/ # Pulumi (Go): Pages projects, domains, DNS, and Pages Git integration
 data/
-  links.json # shared shortlink source
+  links.json  # shared shortlink source
 ```
 
 The previous Next.js/MDX implementation is archived under `legacy/next/` during the migration. It is not used by any build or deployment. Delete that directory after the new sites have been verified.
@@ -47,42 +47,50 @@ The outputs are `apps/web/dist/` and `apps/resume/dist/`.
 
 Edit `data/links.json`, then rebuild the homepage. `redirect` entries become static HTML redirects; `shell` entries preserve the existing shell-wrapper behavior.
 
-## Cloudflare infrastructure
+## Cloudflare Pages
 
-The Pulumi project creates two Direct Upload Pages projects:
+Pulumi creates two Git-integrated Cloudflare Pages projects:
 
 - `atqamz-web` → `atqamz.com`
 - `atqamz-resume` → `resume.atqamz.com`
 
-It also creates proxied CNAME records to each project's `pages.dev` hostname and registers both Pages custom domains.
+Both projects use `main` as the production branch and enable preview deployments plus PR comments.
 
-Bootstrap a stack locally:
+Cloudflare owns application build and deployment:
 
-```sh
-cd infra/cloudflare
-pulumi stack init atqamz/atqamz_pub/prod
-cp Pulumi.example.yaml Pulumi.prod.yaml
-# fill in the Cloudflare account and zone IDs
-pulumi preview
-pulumi up
-```
+- `atqamz-web` watches `apps/web/*` and `data/links.json`, installs Elm, then runs the existing web Makefile.
+- `atqamz-resume` watches `apps/resume/*` and runs `apps/resume/scripts/build-cloudflare.sh`.
+- The resume build pins TinyTeX 2026.05 and verifies the downloaded archive before compiling the PDF.
 
-Do not commit real credentials. The Cloudflare provider reads `CLOUDFLARE_API_TOKEN` from the environment.
+Pulumi also owns the proxied CNAME records and both Pages custom domains.
 
-If the zone already contains DNS records for `atqamz.com` or `resume.atqamz.com`, import those records into the Pulumi stack (or remove them as part of the cutover) before the first `pulumi up`. The program intentionally treats DNS as owned infrastructure and will not silently adopt pre-existing records.
+## Pulumi Deployments
+
+Infrastructure is applied only by Pulumi Deployments. Do not run `pulumi preview`, `pulumi up`, or `pulumi refresh` from a developer machine.
+
+Configure stack `atqamz/atqamz_pub/prod` in Pulumi Cloud under **Settings → Deploy**:
+
+- source: GitHub repository `atqamz/atqamz_pub`
+- branch: `main`
+- Pulumi working directory: `infra/cloudflare`
+- deploy pushed commits: enabled
+- path filter: `infra/cloudflare/**`
+- Cloudflare credential: `CLOUDFLARE_API_TOKEN` in the deployment environment or ESC
+
+The Cloudflare account and zone IDs remain stack configuration values (`cloudflareAccountId` and `cloudflareZoneId`).
+
+### First run after the Direct Upload cutover
+
+The old Direct Upload Pages projects were removed outside Pulumi. Before the first update with this configuration, trigger a **Refresh** for `atqamz/atqamz_pub/prod` from Pulumi Cloud so its state records those deletions. Then trigger or allow the normal Pulumi Deployment update.
+
+The update recreates `atqamz-web` and `atqamz-resume` as Git-integrated Pages projects and re-registers their custom domains. The existing DNS records remain Pulumi-owned.
 
 ## GitHub Actions
 
-`ci.yml` validates/builds all three parts. The two write workflows are intentionally manual while migrating:
+`.github/workflows/ci.yml` is validation-only:
 
-- `infra.yml` applies Pulumi.
-- `deploy-cloudflare.yml` builds and uploads both Pages projects.
+- builds the Elm homepage,
+- builds the resume with the same Cloudflare-compatible build path,
+- formats and compiles the Pulumi Go program.
 
-Repository configuration required for those workflows:
-
-- secret `CLOUDFLARE_API_TOKEN`
-- variable `CLOUDFLARE_ACCOUNT_ID`
-- secret `PULUMI_ACCESS_TOKEN`
-- variable `PULUMI_STACK` = `atqamz/atqamz_pub/prod`
-
-Apply infrastructure before the first Pages deployment. Once the cutover is stable, the deploy workflow can be changed from `workflow_dispatch` to pushes on `main` with path filters.
+GitHub Actions has no Cloudflare or Pulumi production credentials and performs no deployment. Application delivery is handled by Cloudflare Pages; infrastructure delivery is handled by Pulumi Deployments.

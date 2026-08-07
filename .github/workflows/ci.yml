@@ -29,14 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Compile resume
-        uses: xu-cheng/latex-action@v4
-        with:
-          root_file: resume.tex
-          working_directory: apps/resume
-          texlive_version: 2026
-      - name: Stage resume site
-        run: make -C apps/resume stage
+      - name: Build resume with Cloudflare-compatible toolchain
+        run: make -C apps/resume build-ci
       - uses: actions/upload-artifact@v6
         with:
           name: resume

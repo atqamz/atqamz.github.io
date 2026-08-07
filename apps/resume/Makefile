@@ -1,19 +1,15 @@
 LATEXMK ?= latexmk
 DIST := dist
 
-.PHONY: build stage clean
+.PHONY: build build-ci clean
 
 build: clean
 	mkdir -p $(DIST)
 	$(LATEXMK) -pdf -interaction=nonstopmode -halt-on-error -outdir=$(DIST) resume.tex
 	cp public/index.html $(DIST)/index.html
 
-# Use after an external LaTeX action has produced resume.pdf beside resume.tex.
-stage:
-	rm -rf $(DIST)
-	mkdir -p $(DIST)
-	cp resume.pdf $(DIST)/resume.pdf
-	cp public/index.html $(DIST)/index.html
+build-ci:
+	./scripts/build-cloudflare.sh
 
 clean:
 	rm -rf $(DIST)
