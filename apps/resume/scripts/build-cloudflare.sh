@@ -34,6 +34,10 @@ fi
 tex_bin="$(dirname "${pdflatex_path}")"
 export PATH="${tex_bin}:${PATH}"
 
+# TinyTeX releases can lag behind the rolling TeX Live package repository.
+# Update tlmgr itself first so package installation does not abort on that mismatch.
+"${tlmgr_path}" update --self
+
 # TinyTeX-1 is intentionally small. Keep the resume's explicit package set
 # available without depending on whatever happens to be preinstalled by the CI image.
 "${tlmgr_path}" install geometry enumitem hyperref tools titlesec xcolor lm
