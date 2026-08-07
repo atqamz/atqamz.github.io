@@ -19,3 +19,7 @@
 
 # Pulumi local state/cache
 **/.pulumi/
+
+# etc
+.superpowers/
+docs/superpowers/
