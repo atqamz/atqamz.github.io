@@ -14,7 +14,6 @@ const zoneId = config.require("cloudflareZoneId");
 const rootDomain = config.get("rootDomain") ?? "atqamz.com";
 const webProjectName = config.get("webProjectName") ?? "atqamz-web";
 const shortProjectName = config.get("shortProjectName") ?? "atqamz-short";
-const meetProjectName = config.get("meetProjectName") ?? "atqamz-meet";
 const resumeProjectName = config.get("resumeProjectName") ?? "atqamz-resume";
 const shortDomain = `short.${rootDomain}`;
 const meetDomain = `meet.${rootDomain}`;
@@ -83,35 +82,6 @@ const shortProject = new cloudflare.PagesProject("short", {
     deleteBeforeReplace: true,
 });
 
-const meetProject = new cloudflare.PagesProject("meet", {
-    accountId,
-    name: meetProjectName,
-    productionBranch: "main",
-    buildConfig: {
-        buildCaching: true,
-        buildCommand: "make build",
-        destinationDir: "dist",
-        rootDir: "apps/meet",
-    },
-    source: {
-        type: "github",
-        config: {
-            owner: githubOwner,
-            ownerId: githubOwnerId,
-            repoName: githubRepoName,
-            repoId: githubRepoId,
-            pathIncludes: ["apps/meet/*"],
-            prCommentsEnabled: true,
-            previewDeploymentSetting: "all",
-            productionBranch: "main",
-            productionDeploymentsEnabled: true,
-        },
-    },
-}, {
-    replaceOnChanges: ["source.type"],
-    deleteBeforeReplace: true,
-});
-
 const resumeProject = new cloudflare.PagesProject("resume", {
     accountId,
     name: resumeProjectName,
@@ -162,10 +132,41 @@ const shortDns = new cloudflare.DnsRecord("short-dns", {
 const meetDns = new cloudflare.DnsRecord("meet-dns", {
     zoneId,
     name: meetDomain,
-    type: "CNAME",
-    content: `${meetProjectName}.pages.dev`,
+    type: "A",
+    // Redirect-only hostname: Cloudflare terminates the proxied request before origin.
+    content: "192.0.2.1",
     proxied: true,
     ttl: 1,
+}, {
+    // The existing record is a CNAME to the old Pages project; delete it before
+    // creating the replacement A record because DNS cannot have both at once.
+    deleteBeforeReplace: true,
+});
+
+new cloudflare.Ruleset("meet-redirect", {
+    zoneId,
+    name: "Meet redirect",
+    kind: "zone",
+    phase: "http_request_dynamic_redirect",
+    description: "Redirect meet.atqamz.com to the booking calendar.",
+    rules: [{
+        action: "redirect",
+        expression: `(http.host eq "${meetDomain}")`,
+        description: "Redirect meet.atqamz.com to Google Calendar",
+        enabled: true,
+        ref: "meet_atqamz_com",
+        actionParameters: {
+            fromValue: {
+                targetUrl: {
+                    value: "https://calendar.app.google/LAYNBuGBqbjUxvNBA",
+                },
+                statusCode: 302,
+                preserveQueryString: false,
+            },
+        },
+    }],
+}, {
+    dependsOn: [meetDns],
 });
 
 const resumeDns = new cloudflare.DnsRecord("resume-dns", {
@@ -197,16 +198,6 @@ new cloudflare.PagesDomain("short-domain", {
     deleteBeforeReplace: true,
 });
 
-new cloudflare.PagesDomain("meet-domain", {
-    accountId,
-    projectName: meetProjectName,
-    name: meetDomain,
-}, {
-    dependsOn: [meetProject, meetDns],
-    replaceWith: [meetProject],
-    deleteBeforeReplace: true,
-});
-
 new cloudflare.PagesDomain("resume-domain", {
     accountId,
     projectName: resumeProjectName,
@@ -223,5 +214,4 @@ export const meetUrl = `https://${meetDomain}`;
 export const resumeUrl = `https://${resumeDomain}`;
 export const webPagesDev = `https://${webProjectName}.pages.dev`;
 export const shortPagesDev = `https://${shortProjectName}.pages.dev`;
-export const meetPagesDev = `https://${meetProjectName}.pages.dev`;
 export const resumePagesDev = `https://${resumeProjectName}.pages.dev`;
