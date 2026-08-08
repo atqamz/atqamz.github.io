@@ -9,12 +9,12 @@ apps/
   web/        # Elm homepage + static shortlinks
   resume/     # LaTeX source + tiny PDF viewer page
 infra/
-  cloudflare/ # Pulumi (Go): Pages projects, domains, DNS, and Pages Git integration
+  cloudflare/ # Pulumi (TypeScript): Pages projects, domains, DNS, and Pages Git integration
 data/
   links.json  # shared shortlink source
 ```
 
-The previous Next.js/MDX implementation is archived under `legacy/next/` during the migration. It is not used by any build or deployment. Delete that directory after the new sites have been verified.
+The previous Go Pulumi implementation is archived under `legacy/pulumi-go/`, and the previous Next.js/MDX implementation is archived under `legacy/next/` during the migration. It is not used by any build or deployment. Delete that directory after the new sites have been verified.
 
 ## Local development
 
@@ -24,9 +24,9 @@ With Nix, enter the repository development environment with:
 nix develop
 ```
 
-The shell includes Elm, `elm-format`, Python, TeX Live, Go, Node.js, Pulumi, Git, and Make. The first `nix develop` creates `flake.lock` if it is not present; commit that generated lock file to pin the exact nixpkgs revision for future development.
+The shell includes Elm, `elm-format`, Python, TeX Live, Node.js, Pulumi, Git, and Make. The first `nix develop` creates `flake.lock` if it is not present; commit that generated lock file to pin the exact nixpkgs revision for future development.
 
-Without Nix, install Elm 0.19.1, Python 3, `latexmk`/TeX Live, Go, Node.js, Pulumi, Git, and Make yourself.
+Without Nix, install Elm 0.19.1, Python 3, `latexmk`/TeX Live, Node.js, Pulumi, Git, and Make yourself.
 
 Build everything:
 
@@ -49,7 +49,7 @@ Edit `data/links.json`, then rebuild the homepage. `redirect` entries become sta
 
 ## Cloudflare Pages
 
-Pulumi creates two Git-integrated Cloudflare Pages projects:
+The Pulumi TypeScript program creates two Git-integrated Cloudflare Pages projects:
 
 - `atqamz-web` → `atqamz.com`
 - `atqamz-resume` → `resume.atqamz.com`
@@ -77,6 +77,8 @@ Configure stack `atqamz/atqamz_pub/prod` in Pulumi Cloud under **Settings → De
 - path filter: `infra/cloudflare/**`
 - Cloudflare credential: `CLOUDFLARE_API_TOKEN` in the deployment environment or ESC
 
+Pulumi Deployments installs the Node.js dependencies from `infra/cloudflare/package.json` automatically. No Go toolchain or Go-specific pre-run command is required.
+
 The Cloudflare account and zone IDs remain stack configuration values (`cloudflareAccountId` and `cloudflareZoneId`).
 
 ### First run after the Direct Upload cutover
@@ -91,6 +93,6 @@ The update recreates `atqamz-web` and `atqamz-resume` as Git-integrated Pages pr
 
 - builds the Elm homepage,
 - builds the resume with the same Cloudflare-compatible build path,
-- formats and compiles the Pulumi Go program.
+- type-checks the Pulumi TypeScript program.
 
 GitHub Actions has no Cloudflare or Pulumi production credentials and performs no deployment. Application delivery is handled by Cloudflare Pages; infrastructure delivery is handled by Pulumi Deployments.

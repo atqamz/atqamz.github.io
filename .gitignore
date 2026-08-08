@@ -8,6 +8,7 @@
 # generated application output
 **/dist/
 **/elm-stuff/
+**/node_modules/
 
 # LaTeX working files
 *.aux

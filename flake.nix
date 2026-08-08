@@ -26,7 +26,6 @@
               elmPackages.elm-format
               git
               gnumake
-              go_1_25
               nodejs
               pulumi
               python3

@@ -6,7 +6,8 @@ This repository is a small public monorepo. Keep it boring and avoid introducing
 
 - `apps/web`: Elm 0.19.1 static homepage. No blog/router/CMS. `data/links.json` remains the single source for shortlinks.
 - `apps/resume`: ATS-friendly LaTeX resume. `make -C apps/resume build` must produce `dist/resume.pdf` plus the static viewer page. CI/Cloudflare builds use the pinned TinyTeX script under `apps/resume/scripts/`.
-- `infra/cloudflare`: Pulumi Go owns Git-integrated Cloudflare Pages projects, build/source configuration, custom domains, and DNS.
+- `infra/cloudflare`: Pulumi TypeScript owns Git-integrated Cloudflare Pages projects, build/source configuration, custom domains, and DNS.
+- `legacy/pulumi-go`: archived pre-TypeScript Pulumi implementation; no deployment may depend on it.
 - `legacy/next`: archived pre-migration Next.js implementation; no active build may depend on it.
 
 ## Deployment

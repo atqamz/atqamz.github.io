@@ -43,13 +43,10 @@ jobs:
         working-directory: infra/cloudflare
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-go@v7
+      - uses: actions/setup-node@v6
         with:
-          go-version-file: infra/cloudflare/go.mod
-          cache-dependency-path: infra/cloudflare/go.mod
-      - name: Format check
-        run: test -z "$(gofmt -l .)"
-      - name: Download dependencies
-        run: go mod download
-      - name: Compile
-        run: go test ./...
+          node-version: 24
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Type check
+        run: npm run check
