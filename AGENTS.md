@@ -4,7 +4,9 @@ This repository is a small public monorepo. Keep it boring and avoid introducing
 
 ## Architecture
 
-- `apps/web`: Elm 0.19.1 static homepage. No blog/router/CMS. `data/links.json` remains the single source for shortlinks.
+- `apps/web`: Elm 0.19.1 static homepage. No blog/router/CMS.
+- `apps/short`: static shortlink site generated from `data/links.json`, which remains the single source for shortlinks.
+- `apps/meet`: static Cloudflare Pages redirect for `meet.atqamz.com`; keep it independent from `data/links.json`.
 - `apps/resume`: ATS-friendly LaTeX resume. `make -C apps/resume build` must produce `dist/resume.pdf` plus the static viewer page. CI/Cloudflare builds use the pinned TinyTeX script under `apps/resume/scripts/`.
 - `infra/cloudflare`: Pulumi TypeScript owns Git-integrated Cloudflare Pages projects, build/source configuration, custom domains, and DNS.
 - `legacy/pulumi-go`: archived pre-TypeScript Pulumi implementation; no deployment may depend on it.
@@ -12,7 +14,7 @@ This repository is a small public monorepo. Keep it boring and avoid introducing
 
 ## Deployment
 
-Cloudflare Pages Git integration builds and deploys both applications from GitHub. Pulumi Deployments is the only path that applies infrastructure changes. GitHub Actions is validation-only and must not hold production deployment credentials.
+Cloudflare Pages Git integration builds and deploys all four applications from GitHub. Pulumi Deployments is the only path that applies infrastructure changes. GitHub Actions is validation-only and must not hold production deployment credentials.
 
 ## Maintaining this file
 

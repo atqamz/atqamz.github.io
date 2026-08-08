@@ -25,6 +25,28 @@ jobs:
           name: web
           path: apps/web/dist
 
+  short:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build shortlinks
+        run: make -C apps/short build
+      - uses: actions/upload-artifact@v6
+        with:
+          name: short
+          path: apps/short/dist
+
+  meet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build meeting redirect
+        run: make -C apps/meet build
+      - uses: actions/upload-artifact@v6
+        with:
+          name: meet
+          path: apps/meet/dist
+
   resume:
     runs-on: ubuntu-latest
     steps:

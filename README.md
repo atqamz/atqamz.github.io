@@ -1,12 +1,14 @@
 # atqamz_pub
 
-Personal public monorepo for `atqamz.com` and `resume.atqamz.com`.
+Personal public monorepo for `atqamz.com` and its public subdomains.
 
 ## Layout
 
 ```text
 apps/
-  web/        # Elm homepage + static shortlinks
+  web/        # Elm homepage
+  short/      # static shortlinks generated from data/links.json
+  meet/       # static redirect for meet.atqamz.com
   resume/     # LaTeX source + tiny PDF viewer page
 infra/
   cloudflare/ # Pulumi (TypeScript): Pages projects, domains, DNS, and Pages Git integration
@@ -34,35 +36,43 @@ Build everything:
 make build
 ```
 
-Build only the homepage or resume:
+Build individual applications:
 
 ```sh
 make web
+make short
+make meet
 make resume
 ```
 
-The outputs are `apps/web/dist/` and `apps/resume/dist/`.
+Each application writes its output to its own `apps/<name>/dist/` directory.
 
 ## Shortlinks
 
-Edit `data/links.json`, then rebuild the homepage. `redirect` entries become static HTML redirects; `shell` entries preserve the existing shell-wrapper behavior.
+Edit `data/links.json`, then rebuild `apps/short`. Entries are served from `short.atqamz.com/<filename>`: `redirect` entries become static HTML redirects, while `shell` entries preserve the existing shell-wrapper behavior.
+
+`meet.atqamz.com` is intentionally separate from `data/links.json` and redirects to the booking calendar from `apps/meet/public/_redirects`.
 
 ## Cloudflare Pages
 
-The Pulumi TypeScript program creates two Git-integrated Cloudflare Pages projects:
+The Pulumi TypeScript program creates four Git-integrated Cloudflare Pages projects:
 
 - `atqamz-web` → `atqamz.com`
+- `atqamz-short` → `short.atqamz.com`
+- `atqamz-meet` → `meet.atqamz.com`
 - `atqamz-resume` → `resume.atqamz.com`
 
-Both projects use `main` as the production branch and enable preview deployments plus PR comments.
+All four projects use `main` as the production branch and enable preview deployments plus PR comments.
 
 Cloudflare owns application build and deployment:
 
-- `atqamz-web` watches `apps/web/*` and `data/links.json`, installs Elm, then runs the existing web Makefile.
+- `atqamz-web` watches `apps/web/*`, installs Elm, then runs the existing web Makefile.
+- `atqamz-short` watches `apps/short/*` and `data/links.json`, then generates the static shortlinks.
+- `atqamz-meet` watches `apps/meet/*` and publishes the static booking redirect.
 - `atqamz-resume` watches `apps/resume/*` and runs `apps/resume/scripts/build-cloudflare.sh`.
 - The resume build pins TinyTeX 2026.05 and verifies the downloaded archive before compiling the PDF.
 
-Pulumi also owns the proxied CNAME records and both Pages custom domains.
+Pulumi also owns the proxied CNAME records and all four Pages custom domains.
 
 ## Pulumi Deployments
 
@@ -85,13 +95,15 @@ The Cloudflare account and zone IDs remain stack configuration values (`cloudfla
 
 The old Direct Upload Pages projects were removed outside Pulumi. Before the first update with this configuration, trigger a **Refresh** for `atqamz/atqamz_pub/prod` from Pulumi Cloud so its state records those deletions. Then trigger or allow the normal Pulumi Deployment update.
 
-The update recreates `atqamz-web` and `atqamz-resume` as Git-integrated Pages projects and re-registers their custom domains. The existing DNS records remain Pulumi-owned.
+The update keeps `atqamz-web` and `atqamz-resume` Git-integrated and adds `atqamz-short` plus `atqamz-meet` with their custom domains. All related DNS records remain Pulumi-owned.
 
 ## GitHub Actions
 
 `.github/workflows/ci.yml` is validation-only:
 
 - builds the Elm homepage,
+- builds the shortlink site,
+- builds the meeting redirect,
 - builds the resume with the same Cloudflare-compatible build path,
 - type-checks the Pulumi TypeScript program.
 
