@@ -43,6 +43,9 @@ const webProject = new cloudflare.PagesProject("web", {
             productionDeploymentsEnabled: true,
         },
     },
+}, {
+    replaceOnChanges: ["source.type"],
+    deleteBeforeReplace: true,
 });
 
 const resumeProject = new cloudflare.PagesProject("resume", {
@@ -69,6 +72,9 @@ const resumeProject = new cloudflare.PagesProject("resume", {
             productionDeploymentsEnabled: true,
         },
     },
+}, {
+    replaceOnChanges: ["source.type"],
+    deleteBeforeReplace: true,
 });
 
 const webDns = new cloudflare.DnsRecord("web-dns", {
@@ -95,6 +101,8 @@ new cloudflare.PagesDomain("web-domain", {
     name: rootDomain,
 }, {
     dependsOn: [webProject, webDns],
+    replaceWith: [webProject],
+    deleteBeforeReplace: true,
 });
 
 new cloudflare.PagesDomain("resume-domain", {
@@ -103,6 +111,8 @@ new cloudflare.PagesDomain("resume-domain", {
     name: resumeDomain,
 }, {
     dependsOn: [resumeProject, resumeDns],
+    replaceWith: [resumeProject],
+    deleteBeforeReplace: true,
 });
 
 export const webUrl = `https://${rootDomain}`;
