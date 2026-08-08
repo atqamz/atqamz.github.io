@@ -10,7 +10,7 @@
     "type": "redirect"
   },
   {
-    "filename": "termux",
+    "filename": "termux.sh",
     "url": "https://raw.githubusercontent.com/atqamz/universe/master/scripts/termux-bootstrap.sh",
     "type": "shell"
   }

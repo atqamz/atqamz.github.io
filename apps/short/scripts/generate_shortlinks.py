@@ -63,6 +63,10 @@ def main() -> int:
         remove_existing(destination)
 
         if kind == "shell":
+            if not name.endswith(".sh"):
+                raise ValueError(
+                    f"shell shortlink filename must end with .sh: {name!r}"
+                )
             destination.write_text(shell_wrapper(url), encoding="utf-8")
         elif kind == "redirect":
             destination.mkdir(parents=True)
